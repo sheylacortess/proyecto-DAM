@@ -2,6 +2,7 @@ package Metodos;
 
 import java.util.Scanner;
 
+
 public class Herramientas {
 
      /**
