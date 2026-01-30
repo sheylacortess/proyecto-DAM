@@ -27,13 +27,15 @@ public class Herramientas {
      */
     public static void menu1() throws InterruptedException {
         System.out.println("\nHola, bienvenido a La Banca de DAM. Que quieres hacer hoy?");
-        Thread.sleep(50);
+        Thread.sleep(500);
+        System.out.println("0 - Salir.");
+        Thread.sleep(500);
         System.out.println("1 - Sacar dinero.");
-        Thread.sleep(50);
+        Thread.sleep(500);
         System.out.println("2 - Transferir dinero.");
-        Thread.sleep(50);
+        Thread.sleep(500);
         System.out.println("3 - Invertir.");
-        Thread.sleep(50);
+        Thread.sleep(500);
         System.out.println("4 - Crear cuenta de banco.");
     }
 }
