@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 public class Herramientas {
 
-    /**
+     /**
      * Almacena el valor de la opción (tipo String) seleccionada por el usuario,
      * empleando un mensaje para pedir al usuario la introducción de datos.
      *
@@ -17,5 +17,24 @@ public class Herramientas {
         System.out.println();
         System.out.print(mensaje);
         return s.nextLine();
+    }
+
+    /**
+     * Devuelve el menú a mostrar en el programa principal.
+     *
+     * @throws InterruptedException
+     */
+    public static void menu1Al16() throws InterruptedException {
+        System.out.println("\nMENU");
+        Thread.sleep(50);
+        System.out.println("0 - Salir.");
+        Thread.sleep(50);
+        System.out.println("1 - Es Capicúa.");
+        Thread.sleep(50);
+        System.out.println("2 - Es Primo.");
+        Thread.sleep(50);
+        System.out.println("3 - Siguiente primo de un número.");
+        Thread.sleep(50);
+        System.out.println("4 - Potencia.");
     }
 }
