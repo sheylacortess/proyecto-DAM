@@ -30,12 +30,12 @@ public class Herramientas {
         Thread.sleep(500);
         System.out.println("0 - Salir.");
         Thread.sleep(500);
-        System.out.println("1 - Sacar dinero.");
+        System.out.println("1 - Ver saldo de la cuenta.");
         Thread.sleep(500);
         System.out.println("2 - Transferir dinero.");
         Thread.sleep(500);
-        System.out.println("3 - Invertir.");
+        System.out.println("3 - Sacar dinero.");
         Thread.sleep(500);
-        System.out.println("4 - Crear cuenta de banco.");
+        System.out.println("4 - Invertir.");
     }
 }
