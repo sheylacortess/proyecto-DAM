@@ -24,17 +24,15 @@ public class Herramientas {
      *
      * @throws InterruptedException
      */
-    public static void menu1Al16() throws InterruptedException {
-        System.out.println("\nMENU");
+    public static void menu1() throws InterruptedException {
+        System.out.println("\nHola, bienvenido a La Banca de DAM. Que quieres hacer hoy?");
         Thread.sleep(50);
-        System.out.println("0 - Salir.");
+        System.out.println("1 - Sacar dinero.");
         Thread.sleep(50);
-        System.out.println("1 - Es Capicúa.");
+        System.out.println("2 - Transferir dinero.");
         Thread.sleep(50);
-        System.out.println("2 - Es Primo.");
+        System.out.println("3 - Invertir.");
         Thread.sleep(50);
-        System.out.println("3 - Siguiente primo de un número.");
-        Thread.sleep(50);
-        System.out.println("4 - Potencia.");
+        System.out.println("4 - Crear cuenta de banco.");
     }
 }
