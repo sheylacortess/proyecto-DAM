@@ -6,7 +6,6 @@ public class CuentaBancaria {
         private String titular;        // Nombre del usuario/titular
         private double saldo;          // Saldo actual
         private ArrayList<String> movimientos;  // Historial de operaciones
-
         // Constructor
         public CuentaBancaria(int id, String titular, double saldoInicial) {
             this.id = id;
