@@ -1,27 +1,32 @@
 package Clases;
 
 import java.util.Scanner;
+import java.util.Random;
 
-public class Inversion {
+public class Inversion extends ProductoBancario {  // ← HERENCIA
 
     private String moneda;
     private double cantidad;
-    private double precioPorUnidad; // € por unidad de la cripto
+    private double precioPorUnidad;
     private double costeTotal;
 
-    // Precios aproximados al 30 enero 2026 (datos reales) [web:32][web:22][web:31]
-    private static final double BTC = 70582.0;  // 1 BTC ≈ 70,582€
-    private static final double ETH = 2730.0;   // 1 ETH ≈ 2,730€
+    // Precios aproximados (Feb 2026)
+    private static final double BTC = 70582.0;
+    private static final double ETH = 2730.0;
 
-    public Inversion(CuentaBancaria cuenta) {
+    public Inversion(ProductoBancario producto) {
+        super(producto.getTitular());  // ✅ Usuario correcto
+
+        Random random = new Random();
+        this.id = 1000 + random.nextInt(9000);  // ✅ ID
+
         Scanner sc = new Scanner(System.in);
+        CuentaBancaria cuenta = (CuentaBancaria) producto;
 
-        // Mostrar opciones
         System.out.println("\n=== INVERSIÓN EN CRIPTOMONEDAS ===");
         System.out.println("1. Bitcoin (BTC) - " + BTC + "€");
         System.out.println("2. Ethereum (ETH) - " + ETH + "€");
         System.out.print("Elige la moneda (1 o 2): ");
-
         int opcion = sc.nextInt();
 
         if (opcion == 1) {
@@ -32,30 +37,33 @@ public class Inversion {
             this.precioPorUnidad = ETH;
         } else {
             System.out.println("Opción inválida. Inversión cancelada.");
+            this.costeTotal = 0;
             return;
         }
 
         System.out.print("Cantidad de " + moneda + " a comprar: ");
         this.cantidad = sc.nextDouble();
-
         this.costeTotal = cantidad * precioPorUnidad;
 
         System.out.println("\n--- RESUMEN DE INVERSIÓN ---");
+        System.out.printf("ID: %d%n", id);
         System.out.printf("Moneda: %s%n", moneda);
         System.out.printf("Cantidad: %.6f%n", cantidad);
         System.out.printf("Precio unidad: %.2f€%n", precioPorUnidad);
         System.out.printf("COSTE TOTAL: %.2f€%n", costeTotal);
 
-        // Verificar si la cuenta tiene saldo suficiente
         if (cuenta.getSaldo() >= costeTotal) {
-            System.out.println("¡Saldo suficiente! Puedes proceder a invertir.");
-            // Aquí podrías llamar a cuenta.retirar(costeTotal) si quieres ejecutar la inversión
+            System.out.println("Saldo suficiente!");
         } else {
-            System.out.println("¡Saldo insuficiente! Necesitas " + costeTotal + "€");
+            System.out.println("Saldo insuficiente!");
         }
     }
 
-    // Getters si los necesitas
+    @Override
+    public String resumen() {
+        return "Inversión ID " + id + ": " + moneda + " (" + costeTotal + "€)";
+    }
+
     public String getMoneda() { return moneda; }
     public double getCantidad() { return cantidad; }
     public double getCosteTotal() { return costeTotal; }

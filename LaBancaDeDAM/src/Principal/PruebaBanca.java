@@ -7,32 +7,47 @@ public class PruebaBanca {
     public static void main(String[] args) throws InterruptedException {
         String opcion;
 
-        // Pedimos el nombre de usuario
-        String usuario = Herramientas.opcion("Introduzca su usuario ");
+        // Creamos el usuario pidiendo sus datos
+        String nombre = Herramientas.opcion("Introduzca su usuario: ");
+        String dni = Herramientas.opcion("Introduzca su DNI: ");
+        String email = Herramientas.opcion("Introduzca su email: ");
 
-        // Creamos la cuenta AL INICIO, con el nombre del usuario
-        CuentaBancaria cuentaBancaria = new CuentaBancaria(usuario);
+        Usuario usuario = new Usuario(nombre, dni, email);
+        System.out.println("Usuario creado: " + usuario);
+
+        // Creamos la cuenta AL INICIO
+        ProductoBancario cuentaBancaria = new CuentaBancaria(usuario);
 
         Herramientas.menu1();
         do {
-            opcion = Herramientas.opcion("");
+            opcion = Herramientas.opcion("Elige una opción: ");
 
             switch (opcion) {
                 case "0":
                     System.out.println("Gracias por visitar La Banca De DAM, esperamos que vuelva pronto");
                     break;
                 case "1":
-                    // Creamos la cuenta con el nombre que escribió el usuario
-                    System.out.println(cuentaBancaria);
+                    System.out.println("Datos de tu cuenta:");
+                    System.out.println(cuentaBancaria.resumen());
+                    ((CuentaBancaria) cuentaBancaria).mostrarUltimosMovimientos();
                     break;
                 case "2":
-                    System.out.println("Transferimos dienro");
+                    System.out.println("Transferimos dinero (Próximamente)");
                     break;
                 case "3":
-                    System.out.println("¿Cuánto dinero quieres sacar?");
+                    System.out.println("¿Cuánto dinero quieres sacar? (Próximamente)");
                     break;
                 case "4":
-                    new Inversion(cuentaBancaria);  // Pasa la cuenta para verificar saldo
+                    // Crear inversión con POLIMORFISMO
+                    Inversion inversion = new Inversion((CuentaBancaria) cuentaBancaria);
+
+                    if (inversion.getCosteTotal() > 0) {
+                        ProductoBancario[] productos = {cuentaBancaria, inversion};
+                        System.out.println("=== TUS PRODUCTOS BANCARIOS ===");
+                        for (ProductoBancario p : productos) {
+                            System.out.println("• " + p.resumen());
+                        }
+                    }
                     break;
             }
         } while (!opcion.equals("0"));
