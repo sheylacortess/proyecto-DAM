@@ -3,22 +3,21 @@ package Clases;
 import java.util.Scanner;
 import java.util.Random;
 
-public class Inversion extends ProductoBancario {  // ← HERENCIA
+public class Inversion extends ProductoBancario {
 
     private String moneda;
     private double cantidad;
     private double precioPorUnidad;
     private double costeTotal;
 
-    // Precios aproximados (Feb 2026)
     private static final double BTC = 70582.0;
     private static final double ETH = 2730.0;
 
     public Inversion(ProductoBancario producto) {
-        super(producto.getTitular());  // ✅ Usuario correcto
+        super(producto.getTitular());
 
         Random random = new Random();
-        this.id = 1000 + random.nextInt(9000);  // ✅ ID
+        this.id = 1000 + random.nextInt(9000);
 
         Scanner sc = new Scanner(System.in);
         CuentaBancaria cuenta = (CuentaBancaria) producto;

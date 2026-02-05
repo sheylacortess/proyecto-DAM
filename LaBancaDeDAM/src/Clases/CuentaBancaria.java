@@ -1,31 +1,30 @@
 package Clases;
 
-import java.util.ArrayList;
 import java.util.Random;
 
-public class CuentaBancaria extends ProductoBancario {  // ← HERENCIA
+public class CuentaBancaria extends ProductoBancario {
 
     private double saldo;
-    private ArrayList<String> movimientos;
+    private String mov1, mov2, mov3;  // Últimos 3 movimientos (mov1 más reciente)
 
     public CuentaBancaria(Usuario titular) {
-        super(titular);  // ← Llama constructor de ProductoBancario
+        super(titular);
         Random random = new Random();
         this.id = 1000 + random.nextInt(9000);
-        this.saldo = random.nextDouble() * 5000;
-        this.movimientos = new ArrayList<>();
-        this.movimientos.add("Cuenta creada con saldo inicial: " + saldo + "€");
+        this.saldo = Math.round(random.nextDouble() * 5000 * 100.0) / 100.0;
+        String mensaje = String.format("Cuenta creada con saldo inicial: %.2f€", saldo);
+        mov1 = mensaje;  // Inicial solo mov1
     }
 
     @Override
-    public String resumen() {  // ← Método abstracto implementado
+    public String resumen() {
         return "Cuenta ID " + id + ", Saldo " + saldo + "€";
     }
 
     public boolean depositar(double cantidad) {
         if (cantidad > 0) {
             saldo += cantidad;
-            movimientos.add("Depósito: +" + cantidad + "€. Saldo: " + saldo + "€");
+            actualizarMovimiento(String.format("Depósito: +%.2f€. Saldo: %.2f€", cantidad, saldo));
             return true;
         }
         return false;
@@ -34,19 +33,24 @@ public class CuentaBancaria extends ProductoBancario {  // ← HERENCIA
     public boolean retirar(double cantidad) {
         if (cantidad > 0 && cantidad <= saldo) {
             saldo -= cantidad;
-            movimientos.add("Retiro: -" + cantidad + "€. Saldo: " + saldo + "€");
+            actualizarMovimiento(String.format("Retiro: -%.2f€. Saldo: %.2f€", cantidad, saldo));
             return true;
         }
         return false;
+    }
+
+    private void actualizarMovimiento(String nuevoMov) {
+        mov3 = mov2;  // Desplaza
+        mov2 = mov1;
+        mov1 = nuevoMov;
     }
 
     public double getSaldo() { return saldo; }
 
     public void mostrarUltimosMovimientos() {
         System.out.println("Historial reciente:");
-        int fin = Math.min(3, movimientos.size());
-        for (int i = movimientos.size() - fin; i < movimientos.size(); i++) {
-            System.out.println("  " + movimientos.get(i));
-        }
+        if (mov1 != null) System.out.println("  " + mov1);
+        if (mov2 != null) System.out.println("  " + mov2);
+        if (mov3 != null) System.out.println("  " + mov3);
     }
 }
