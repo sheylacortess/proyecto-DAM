@@ -17,6 +17,8 @@ public class PruebaBanca {
 
         // Creamos la cuenta AL INICIO
         ProductoBancario cuentaBancaria = new CuentaBancaria(usuario);
+        // Segunda cuenta para transferencias (mismo usuario)
+        CuentaBancaria cuenta2 = new CuentaBancaria(usuario);
 
         Herramientas.menu1();
         do {
@@ -32,10 +34,10 @@ public class PruebaBanca {
                     ((CuentaBancaria) cuentaBancaria).mostrarUltimosMovimientos();
                     break;
                 case "2":
-                    System.out.println("Transferimos dinero (Próximamente)");
+                    new TransferirDinero(usuario, 50.0, cuentaBancaria, cuenta2, true);
                     break;
                 case "3":
-                    System.out.println("¿Cuánto dinero quieres sacar? (Próximamente)");
+                    new SacarDinero(usuario, 100.0, cuentaBancaria, true);
                     break;
                 case "4":
                     // Crear inversión con POLIMORFISMO
