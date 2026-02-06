@@ -7,12 +7,6 @@ public class PruebaBanca {
     public static void main(String[] args) throws InterruptedException {
 
         String opcion;
-        // Creamos el usuario pidiendo sus datos
-//        String nombre = Herramientas.leerOpcion("Introduzca su usuario: ");
-//        String dni = Herramientas.leerOpcion("Introduzca su DNI: ");
-//        String email = Herramientas.leerOpcion("Introduzca su email: ");
-//        Usuario usuario = new Usuario(nombre, dni, email);
-//        System.out.println("Usuario creado: " + usuario);
 
         // CREAR USUARIO MODULARIZADO
         Herramientas.crearUsuario();
