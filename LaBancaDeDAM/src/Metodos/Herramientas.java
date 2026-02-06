@@ -88,8 +88,8 @@ public class Herramientas {
                 case "3":
                     System.out.print("Introduce la cantidad a retirar: ");
                     double cantidadRetiro = sc.nextDouble();
-                    if (cuenta.retirar(cantidadRetiro)) {
-                        System.out.println("Retiro realizado. Nuevo saldo: " + cuenta.getSaldo());
+                    if (cuentaPrincipal.retirar(cantidadRetiro)) {
+                        System.out.println("Retiro realizado. Nuevo saldo: " + cuentaPrincipal.getSaldo());
                     } else {
                         System.out.println("No tienes saldo suficiente para retirar.");
                     }
@@ -97,8 +97,8 @@ public class Herramientas {
                 case "4":
                     System.out.print("Introduce la cantidad a depositar: ");
                     double cantidadDeposito = sc.nextDouble();
-                    if (cuenta.depositar(cantidadDeposito)) {
-                        System.out.println("Depósito realizado. Saldo actual: " + cuenta.getSaldo());
+                    if (cuentaPrincipal.depositar(cantidadDeposito)) {
+                        System.out.println("Depósito realizado. Saldo actual: " + cuentaPrincipal.getSaldo());
                     } else {
                         System.out.println("No se ha podido hacer el deposito, cantidad no válida.");
                     }

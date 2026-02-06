@@ -5,8 +5,8 @@ import java.util.Random;
 public class CuentaBancaria extends ProductoBancario {
 
     private double saldo;
-    private String[] movimientos = new String[10];
-    private int indiceActual = 0;
+    private static String[] movimientos = new String[10];
+    private static int indiceActual = 0;
     private int totalMovimientos = 0;
 
     /**
@@ -138,7 +138,7 @@ public class CuentaBancaria extends ProductoBancario {
     /**
      * Muestra historial de movimientos recientes
      */
-    public void mostrarUltimosMovimientos() {
+    public static void mostrarUltimosMovimientos() {
         System.out.println("Ultimos movimientos:");
 
         int inicio = (indiceActual - 1 + 10) % 10;
