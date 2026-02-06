@@ -3,12 +3,11 @@ package Clases;
 import Metodos.Herramientas;
 
 import java.util.Scanner;
-import java.util.Random;
 
-public class Cryptos /** extends ProductoBancario */
-{
+public class Cryptos {
 
-    private String moneda;
+    private double moneda;
+    private String tipoMoneda;
     private double cantidad;
     private double precioPorUnidad;
     private double costeTotal;
@@ -17,23 +16,25 @@ public class Cryptos /** extends ProductoBancario */
     private static final double ETH = 1600.0;
     private static final double SOL = 68.4;
 
-    // NUEVO CONSTRUCTOR POR DEFECTO
+    // Constructor por defecto
     public Cryptos() {
-        this.moneda = "";
+        this.moneda = 0;
+        this.tipoMoneda = "";
         this.cantidad = 0;
         this.precioPorUnidad = 0;
         this.costeTotal = 0;
     }
 
-    public Cryptos(String moneda, double cantidad, double precioPorUnidad, double costeTotal) {
+    public Cryptos(double moneda, double cantidad, double precioPorUnidad, double costeTotal) {
         this.moneda = moneda;
+        this.tipoMoneda = "";
         this.cantidad = cantidad;
         this.precioPorUnidad = precioPorUnidad;
         this.costeTotal = costeTotal;
     }
 
     // SETTERS
-    private void setMoneda(String moneda) {
+    private void setMoneda(double moneda) {
         this.moneda = moneda;
     }
 
@@ -41,8 +42,16 @@ public class Cryptos /** extends ProductoBancario */
         this.cantidad = cantidad;
     }
 
+    private void setCosteTotal(double costeTotal) {
+        this.costeTotal = costeTotal;
+    }
+
+    private void setTipoMoneda(String tipoMoneda) {
+        this.tipoMoneda = tipoMoneda;
+    }
+
     // GETTERS
-    public String getMoneda() {
+    public double getMoneda() {
         return moneda;
     }
 
@@ -54,43 +63,61 @@ public class Cryptos /** extends ProductoBancario */
         return costeTotal;
     }
 
+    public String getTipoMoneda() {
+        return tipoMoneda;
+    }
 
     /**
-     * ANTERIOR CONSTRUCTOR CON HERENCIA
-     * public Cryptos(ProductoBancario producto) {
-     * super(producto.getTitular());
-     * <p>
-     * Random random = new Random();
-     * this.id = 1000 + random.nextInt(9000);
-     * <p>
-     * Scanner sc = new Scanner(System.in);
-     * CuentaBancaria cuenta = (CuentaBancaria) producto;
-     * <p>
-     * }
-     *
-     * @Override public String resumen() {
-     * return "Inversión ID " + id + ": " + moneda + " (" + costeTotal + "€)";
-     * }
+     * Metodo para mostrar las criptomonedas al usuario,
+     * pedirle cual y cuanto desea
+     * y hacer el calculo correspondiente al valor de la criptomoneda
      */
-
-    // Metodo mostrar todas las cryptos
     public static void mostrarCryptos() {
+        Scanner sc = new Scanner(System.in);
         Cryptos monedaUsuario = new Cryptos();
+        System.out.println("0 -- Salir");
         System.out.println("1 -- Ethereum (ETH) - - - 1600.0€");
         System.out.println("2 -- Bitcoin (BTC) - - - 56000€");
         System.out.println("3 -- Solana (SOL) - - - 68.4€");
-        String crypto = Herramientas.leerString("Selecciona: 1 - 3");
-        if (crypto.equals("1")) {
-            monedaUsuario.setMoneda("ETH");
-        } else if (crypto.equals("2")) {
-            monedaUsuario.setMoneda("BTC");
-        } else if (crypto.equals("3")) {
-            monedaUsuario.setMoneda("SOL");
+        boolean opcionValida = false;
+        do {
+            String cryptoOpcion = Herramientas.leerString("Selecciona: 1 - 3: ");
+            switch (cryptoOpcion) {
+                case "0":
+                    System.out.println("Gracias! Saliendo...");
+                    opcionValida = true;
+                    break;
+                case "1":
+                    monedaUsuario.setMoneda(ETH);
+                    monedaUsuario.setTipoMoneda("ETH");
+                    opcionValida = true;
+                    break;
+                case "2":
+                    monedaUsuario.setMoneda(BTC);
+                    monedaUsuario.setTipoMoneda("BTC");
+                    opcionValida = true;
+                    break;
+                case "3":
+                    monedaUsuario.setMoneda(SOL);
+                    monedaUsuario.setTipoMoneda("SOL");
+                    opcionValida = true;
+                    break;
+                default:
+                    System.out.println("Opción no válida. Por favor, pruebe de nuevo. ");
+                    break;
+            }
+        } while (!opcionValida);
+        double cantidadUsuario;
+        System.out.println("Introduce en € la cantidad deseada: ");
+        while (!sc.hasNextDouble()) {
+            String basura = sc.next();
+            System.out.println("Opción no válida. Por favor, pruebe de nuevo. ");
+            System.out.println("Introduzca en € la cantidad deseada: ");
         }
-        double cantidadUsuario = Herramientas.leerDouble("Introduce la cantidad deseada: ");
+        cantidadUsuario = sc.nextDouble();
         monedaUsuario.setCantidad(cantidadUsuario);
+        monedaUsuario.setCosteTotal(cantidadUsuario * monedaUsuario.getMoneda());
+        System.out.println("Usted ahora tiene un valor de: " +  monedaUsuario.getCosteTotal() + " en " +  monedaUsuario.getTipoMoneda());
     }
-
-
 }
 

@@ -3,22 +3,20 @@ package Principal;
 import Clases.*;
 import Metodos.Herramientas;
 
+/**
+ * Clase main para ejecutar el programa
+ *
+ * @author Sheyla & Dani
+ */
+
 public class PruebaBanca {
     public static void main(String[] args) throws InterruptedException {
-
         String opcion;
 
-        // CREAR USUARIO MODULARIZADO
+        // Crear usuario
         Herramientas.crearUsuario();
 
-        // MENÚ MODULARIZADO
+        // Mostrar menú
         Herramientas.menu();
-
-
-        // ANTERIOR
-//        // Creamos la cuenta AL INICIO
-//        ProductoBancario cuentaBancaria = new CuentaBancaria();
-//        // Segunda cuenta para transferencias (mismo usuario)
-//        CuentaBancaria cuenta2 = new CuentaBancaria(usuario);
     }
 }

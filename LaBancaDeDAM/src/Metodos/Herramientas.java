@@ -29,7 +29,13 @@ public class Herramientas {
         return sc.nextDouble();
     }
 
-    // Usuario y cuenta accesiles desde todo Herramientas
+    public static double leerInt(String mensaje) {
+        Scanner sc = new Scanner(System.in);
+        System.out.print(mensaje);
+        return sc.nextInt();
+    }
+
+    // Usuario y cuenta accesibles desde todo Herramientas
     private static Usuario usuarioActual;
     private static CuentaBancaria cuentaPrincipal;
 
@@ -56,19 +62,18 @@ public class Herramientas {
         String opcion = "";
         System.out.println("\nHola, bienvenido a La Banca de DAM. Que desea hacer hoy?");
         do {
-            Thread.sleep(200);
-            System.out.println("0 - Salir.");
-            Thread.sleep(200);
+            System.out.println("\n0 - Salir.");
+            Thread.sleep(50);
             System.out.println("1 - Ver saldo de la cuenta.");
-            Thread.sleep(200);
-            System.out.println("2 - Transferir dinero. (NO)");
-            Thread.sleep(200);
+            Thread.sleep(50);
+            System.out.println("2 - Transferir dinero. (No disponible)");
+            Thread.sleep(50);
             System.out.println("3 - Retirar dinero.");
-            Thread.sleep(200);
+            Thread.sleep(50);
             System.out.println("4 - Hacer un depósito.");
-            Thread.sleep(200);
+            Thread.sleep(50);
             System.out.println("5 - Invertir.");
-            Thread.sleep(200);
+            Thread.sleep(50);
             System.out.println("6 - Ver historial de movimientos.");
 
             opcion = leerString("\nElija una opción: ");
@@ -82,11 +87,19 @@ public class Herramientas {
                     System.out.println("Saldo actual: " + cuentaPrincipal.getSaldo() + "€");
                     break;
                 case "2":
-                    double cantidadTransfer = leerDouble("Escriba la cantidad que quiere transferir: ");
+                    System.out.println("Esta acción aún está en desarrollo. Gracias.");
                     break;
                 case "3":
                     System.out.print("Introduce la cantidad a retirar: ");
-                    double cantidadRetiro = sc.nextDouble();
+                    double cantidadRetiro;
+
+                    // Validación con hasNextDouble()
+                    while (!sc.hasNextDouble()) {
+                        String basura = sc.next();
+                        System.out.println("No es válido. Intentelo de nuevo.");
+                        System.out.print("Introduce la cantidad a retirar: ");
+                    }
+                    cantidadRetiro = sc.nextDouble();
                     if (cuentaPrincipal.retirar(cantidadRetiro)) {
                         System.out.println("Retiro realizado. Nuevo saldo: " + cuentaPrincipal.getSaldo() + "€");
                     } else {
@@ -95,7 +108,15 @@ public class Herramientas {
                     break;
                 case "4":
                     System.out.print("Introduce la cantidad a depositar: ");
-                    double cantidadDeposito = sc.nextDouble();
+                    double cantidadDeposito;
+
+                    // Validacion de double
+                    while (!sc.hasNextDouble()) {
+                        String basura = sc.next();
+                        System.out.println("No es válido. Inténtelo de nuevo.");
+                        System.out.print("Introduce la cantidad a depositar: ");
+                    }
+                    cantidadDeposito = sc.nextDouble();
                     if (cuentaPrincipal.depositar(cantidadDeposito)) {
                         System.out.println("Depósito realizado. Saldo actual: " + cuentaPrincipal.getSaldo() + "€");
                     } else {
@@ -104,15 +125,12 @@ public class Herramientas {
                     break;
                 case "5":
                     Cryptos.mostrarCryptos();
-
-                    double cant = Herramientas.leerDouble("Introduce una cantidad: ");
-                    CuentaBancaria.invertir(cuentaPrincipal, cant);
                     break;
                 case "6":
                     CuentaBancaria.mostrarUltimosMovimientos();
                     break;
                 default:
-                    System.out.println("Opcion inválida. Prueba de nuevo");
+                    System.out.println("Opción inválida. Por favor, pruebe de nuevo.");
                     break;
 
             }
