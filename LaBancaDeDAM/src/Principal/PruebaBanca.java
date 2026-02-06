@@ -34,10 +34,10 @@ public class PruebaBanca {
                     ((CuentaBancaria) cuentaBancaria).mostrarUltimosMovimientos();
                     break;
                 case "2":
-                    new TransferirDinero(usuario, 50.0, cuentaBancaria, cuenta2, true);
+
                     break;
                 case "3":
-                    new SacarDinero(usuario, 100.0, cuentaBancaria, true);
+
                     break;
                 case "4":
                     // Crear inversión con POLIMORFISMO
