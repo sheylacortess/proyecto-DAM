@@ -4,6 +4,7 @@ import java.util.Random;
 
 public class CuentaBancaria extends ProductoBancario {
 
+    public static CuentaBancaria InversionCrypto;
     private double saldo;
     private static String[] movimientos = new String[10];
     private static int indiceActual = 0;
