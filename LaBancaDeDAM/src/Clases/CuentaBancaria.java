@@ -37,8 +37,9 @@ public class CuentaBancaria extends ProductoBancario {
      */
     public boolean depositar(double cantidad) {
         if (cantidad > 0) {
-            saldo += cantidad;
-            actualizarMovimiento(String.format("Depósito: +%.2f€. Saldo: %.2f€", cantidad, saldo));
+            double nuevoSaldo = getSaldo() + cantidad;
+            setSaldo(nuevoSaldo);
+            actualizarMovimiento(String.format("Depósito: +%.2f€. Saldo: %.2f€", cantidad, nuevoSaldo));
             return true;
         }
         return false;
@@ -59,9 +60,10 @@ public class CuentaBancaria extends ProductoBancario {
      * @return true o false dependiendo el resultado
      */
     public boolean retirar(double cantidad) {
-        if (cantidad > 0 && cantidad <= saldo) {
-            saldo -= cantidad;
-            actualizarMovimiento(String.format("Retiro: -%.2f€. Saldo: %.2f€", cantidad, saldo));
+        if (cantidad > 0 && cantidad <= getSaldo()) {
+            double nuevoSaldo = getSaldo() - cantidad;
+            setSaldo(nuevoSaldo);
+            actualizarMovimiento(String.format("Retiro: -%.2f€. Saldo: %.2f€", cantidad, nuevoSaldo));
             return true;
         }
         return false;
@@ -74,6 +76,48 @@ public class CuentaBancaria extends ProductoBancario {
 //    } else {
 //        System.out.println("No tienes saldo suficiente para retirar.");
 //    }
+//    break;
+
+    /**
+     * Transfiere dinero de cuentaOrigen a cuentaDestino
+     * @param
+     * @param
+     * @param
+     * @return true si transferencia exitosa, false si saldo insuficiente
+     */
+    public class Transferencia {
+        public static boolean transferir(CuentaBancaria origen, CuentaBancaria destino, double cantidad) {
+            if (cantidad > 0 && origen.retirar(cantidad) && destino.depositar(cantidad)) {
+                System.out.printf("Dinero transferido %.2f€ → %d%n", cantidad, destino.id);
+                return true;
+            }
+            System.out.println("Transferencia fallida");
+            return false;
+        }
+    }
+
+    /**
+     * Invierte en cryptomonedas
+     * @param
+     * @return true si inversión se puede hacer
+     */
+    public class InversionCrypto {
+        public static boolean invertir(CuentaBancaria cuenta, double cantidad) {
+            if (cantidad > 0 && cuenta.retirar(cantidad)) {
+                double cambio = cantidad * (Math.random() * 0.7 - 0.2);  // -20% a +50%
+                cuenta.setSaldo(cuenta.getSaldo() + cambio);
+                System.out.printf("Crypto: %.2f€ → %.2f€%n", cantidad, cambio);
+                return true;
+            }
+            return false;
+        }
+    }
+
+//    case: // Transferir
+//            Transferencia.transferir(cuenta1, cuenta2, sc.nextDouble());
+//    break;
+//case 5: // Crypto
+//        InversionCrypto.invertir(cuenta1, sc.nextDouble());
 //    break;
 
     /**
@@ -100,7 +144,16 @@ public class CuentaBancaria extends ProductoBancario {
         this.saldo = saldo;
     }
 
+    /**
+     * @return total de movimientos realizados
+     */
+    public int getTotalMovimientos() {
+        return totalMovimientos;
+    }
 
+    /**
+     * Muestra historial de movimientos recientes
+     */
     public void mostrarUltimosMovimientos() {
         System.out.println("Ultimos movimientos:");
 
