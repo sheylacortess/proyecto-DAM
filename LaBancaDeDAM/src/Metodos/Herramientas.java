@@ -60,7 +60,7 @@ public class Herramientas {
             Thread.sleep(500);
             System.out.println("1 - Ver saldo de la cuenta.");
             Thread.sleep(500);
-            System.out.println("2 - Transferir dinero.");
+            System.out.println("2 - Transferir dinero. (NO)");
             Thread.sleep(500);
             System.out.println("3 - Retirar dinero.");
             Thread.sleep(500);
@@ -82,8 +82,6 @@ public class Herramientas {
                     break;
                 case "2":
                     double cantidadTransfer = leerDouble("Escriba la cantidad que quiere transferir: ");
-
-                    CuentaBancaria.transferir(cuentaPrincipal, cuenta2,);
                     break;
                 case "3":
                     System.out.print("Introduce la cantidad a retirar: ");
