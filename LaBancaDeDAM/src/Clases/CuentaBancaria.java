@@ -5,13 +5,13 @@ import java.util.Random;
 public class CuentaBancaria extends ProductoBancario {
 
     private double saldo;
-    private String mov1, mov2, mov3;  // Últimos 3 movimientos (mov1 más reciente)
+    private String mov1, mov2, mov3;
 
     public CuentaBancaria(Usuario titular) {
         super(titular);
         Random random = new Random();
         this.id = 1000 + random.nextInt(9000);
-        this.saldo = Math.round(random.nextDouble() * 5000 * 100.0) / 100.0;
+        this.saldo = Math.round(random.nextDouble() * 5000 * 100) / 100;
         String mensaje = String.format("Cuenta creada con saldo inicial: %.2f€", saldo);
         mov1 = mensaje;  // Inicial solo mov1
     }

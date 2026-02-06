@@ -5,8 +5,8 @@ import Metodos.Herramientas;
 
 public class PruebaBanca {
     public static void main(String[] args) throws InterruptedException {
-        String opcion;
 
+        String opcion;
         // Creamos el usuario pidiendo sus datos
         String nombre = Herramientas.opcion("Introduzca su usuario: ");
         String dni = Herramientas.opcion("Introduzca su DNI: ");
