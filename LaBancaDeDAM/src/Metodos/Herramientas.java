@@ -34,7 +34,7 @@ public class Herramientas {
         Thread.sleep(500);
         System.out.println("2 - Transferir dinero.");
         Thread.sleep(500);
-        System.out.println("3 - Sacar dinero.");
+        System.out.println("3 - Retirar dinero.");
         Thread.sleep(500);
         System.out.println("4 - Invertir.");
     }
