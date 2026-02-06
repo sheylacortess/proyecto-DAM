@@ -15,7 +15,6 @@ public class PruebaBanca {
         Herramientas.menu();
 
 
-
         // ANTERIOR
 //        // Creamos la cuenta AL INICIO
 //        ProductoBancario cuentaBancaria = new CuentaBancaria();
