@@ -8,9 +8,9 @@ public class PruebaBanca {
 
         String opcion;
         // Creamos el usuario pidiendo sus datos
-        String nombre = Herramientas.opcion("Introduzca su usuario: ");
-        String dni = Herramientas.opcion("Introduzca su DNI: ");
-        String email = Herramientas.opcion("Introduzca su email: ");
+        String nombre = Herramientas.leerOpcion("Introduzca su usuario: ");
+        String dni = Herramientas.leerOpcion("Introduzca su DNI: ");
+        String email = Herramientas.leerOpcion("Introduzca su email: ");
 
         Usuario usuario = new Usuario(nombre, dni, email);
         System.out.println("Usuario creado: " + usuario);
@@ -20,8 +20,15 @@ public class PruebaBanca {
         // Segunda cuenta para transferencias (mismo usuario)
         CuentaBancaria cuenta2 = new CuentaBancaria(usuario);
 
-        Herramientas.menu1();
-        do {
+        Herramientas.menu();
+
+
+
+
+
+
+
+        /** do {        // ANTIGUO SWITCH
             opcion = Herramientas.opcion("Elige una opción: ");
 
             switch (opcion) {
@@ -53,5 +60,6 @@ public class PruebaBanca {
                     break;
             }
         } while (!opcion.equals("0"));
+         */
     }
 }
