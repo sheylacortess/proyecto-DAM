@@ -37,6 +37,10 @@ public class Cryptos /** extends ProductoBancario */
         this.moneda = moneda;
     }
 
+    private void setCantidad(double cantidad) {
+        this.cantidad = cantidad;
+    }
+
     // GETTERS
     public String getMoneda() {
         return moneda;
@@ -83,7 +87,8 @@ public class Cryptos /** extends ProductoBancario */
         } else if (crypto.equals("3")) {
             monedaUsuario.setMoneda("SOL");
         }
-
+        double cantidadUsuario = Herramientas.leerDouble("Introduce la cantidad deseada: ");
+        monedaUsuario.setCantidad(cantidadUsuario);
     }
 
 
