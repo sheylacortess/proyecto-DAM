@@ -8,58 +8,24 @@ public class PruebaBanca {
 
         String opcion;
         // Creamos el usuario pidiendo sus datos
-        String nombre = Herramientas.leerOpcion("Introduzca su usuario: ");
-        String dni = Herramientas.leerOpcion("Introduzca su DNI: ");
-        String email = Herramientas.leerOpcion("Introduzca su email: ");
+//        String nombre = Herramientas.leerOpcion("Introduzca su usuario: ");
+//        String dni = Herramientas.leerOpcion("Introduzca su DNI: ");
+//        String email = Herramientas.leerOpcion("Introduzca su email: ");
+//        Usuario usuario = new Usuario(nombre, dni, email);
+//        System.out.println("Usuario creado: " + usuario);
 
-        Usuario usuario = new Usuario(nombre, dni, email);
-        System.out.println("Usuario creado: " + usuario);
+        // CREAR USUARIO MODULARIZADO
+        Herramientas.crearUsuario();
 
-        // Creamos la cuenta AL INICIO
-        ProductoBancario cuentaBancaria = new CuentaBancaria(usuario);
-        // Segunda cuenta para transferencias (mismo usuario)
-        CuentaBancaria cuenta2 = new CuentaBancaria(usuario);
-
+        // MENÚ MODULARIZADO
         Herramientas.menu();
 
 
 
-
-
-
-
-        /** do {        // ANTIGUO SWITCH
-            opcion = Herramientas.opcion("Elige una opción: ");
-
-            switch (opcion) {
-                case "0":
-                    System.out.println("Gracias por visitar La Banca De DAM, esperamos que vuelva pronto");
-                    break;
-                case "1":
-                    System.out.println("Datos de tu cuenta:");
-                    System.out.println(cuentaBancaria.resumen());
-                    ((CuentaBancaria) cuentaBancaria).mostrarUltimosMovimientos();
-                    break;
-                case "2":
-
-                    break;
-                case "3":
-
-                    break;
-                case "4":
-                    // Crear inversión con POLIMORFISMO
-                    Inversion inversion = new Inversion((CuentaBancaria) cuentaBancaria);
-
-                    if (inversion.getCosteTotal() > 0) {
-                        ProductoBancario[] productos = {cuentaBancaria, inversion};
-                        System.out.println("=== TUS PRODUCTOS BANCARIOS ===");
-                        for (ProductoBancario p : productos) {
-                            System.out.println("• " + p.resumen());
-                        }
-                    }
-                    break;
-            }
-        } while (!opcion.equals("0"));
-         */
+        // ANTERIOR
+//        // Creamos la cuenta AL INICIO
+//        ProductoBancario cuentaBancaria = new CuentaBancaria();
+//        // Segunda cuenta para transferencias (mismo usuario)
+//        CuentaBancaria cuenta2 = new CuentaBancaria(usuario);
     }
 }

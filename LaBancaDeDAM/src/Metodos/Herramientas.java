@@ -1,6 +1,7 @@
 package Metodos;
 
 import Clases.CuentaBancaria;
+import Clases.Usuario;
 
 import java.util.Scanner;
 
@@ -21,24 +22,26 @@ public class Herramientas {
         return s.nextLine();
     }
 
+    // Usuario y cuenta accesiles desde todo Herramientas
+    private static Usuario usuarioActual;
+    private static CuentaBancaria cuentaPrincipal;
+
+    public static void crearUsuario() {
+        String nombre = Herramientas.leerOpcion("Introduzca su usuario: ");
+        String dni = Herramientas.leerOpcion("Introduzca su DNI: ");
+        String email = Herramientas.leerOpcion("Introduzca su email: ");
+
+        usuarioActual = new Usuario(nombre, dni, email);
+        cuentaPrincipal = new CuentaBancaria(usuarioActual); // Aqui se crea la cuenta
+
+        System.out.println("Usuario creado: " + usuarioActual);
+    }
+
     /**
      * Devuelve el menú a mostrar en el programa principal.
      *
      * @throws InterruptedException
      */
-//    public static void menu1() throws InterruptedException {
-//        System.out.println("\nHola, bienvenido a La Banca de DAM. Que quieres hacer hoy?");
-//        Thread.sleep(500);
-//        System.out.println("0 - Salir.");
-//        Thread.sleep(500);
-//        System.out.println("1 - Ver saldo de la cuenta.");
-//        Thread.sleep(500);
-//        System.out.println("2 - Transferir dinero.");
-//        Thread.sleep(500);
-//        System.out.println("3 - Retirar dinero.");
-//        Thread.sleep(500);
-//        System.out.println("4 - Invertir.");
-//    }
 
     public static void menu() throws InterruptedException {
         boolean continuar = true;
@@ -68,7 +71,7 @@ public class Herramientas {
                     continuar = false;
                     break;
                 case "1":
-                    System.out.println("Datos de tu cuenta:");
+                    System.out.println("Saldo actual: " +  cuentaPrincipal.getSaldo());
                     break;
                 case "2":
                     break;
