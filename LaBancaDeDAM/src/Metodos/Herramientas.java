@@ -78,7 +78,7 @@ public class Herramientas {
                     continuar = false;
                     break;
                 case "1":
-                    System.out.println("Saldo actual: " + cuentaPrincipal.getSaldo());
+                    System.out.println("Saldo actual: " + cuentaPrincipal.getSaldo() + "€");
                     break;
                 case "2":
                     double cantidadTransfer = leerDouble("Escriba la cantidad que quiere transferir: ");
@@ -87,7 +87,7 @@ public class Herramientas {
                     System.out.print("Introduce la cantidad a retirar: ");
                     double cantidadRetiro = sc.nextDouble();
                     if (cuentaPrincipal.retirar(cantidadRetiro)) {
-                        System.out.println("Retiro realizado. Nuevo saldo: " + cuentaPrincipal.getSaldo());
+                        System.out.println("Retiro realizado. Nuevo saldo: " + cuentaPrincipal.getSaldo() + "€");
                     } else {
                         System.out.println("No tienes saldo suficiente para retirar.");
                     }
@@ -96,7 +96,7 @@ public class Herramientas {
                     System.out.print("Introduce la cantidad a depositar: ");
                     double cantidadDeposito = sc.nextDouble();
                     if (cuentaPrincipal.depositar(cantidadDeposito)) {
-                        System.out.println("Depósito realizado. Saldo actual: " + cuentaPrincipal.getSaldo());
+                        System.out.println("Depósito realizado. Saldo actual: " + cuentaPrincipal.getSaldo() + "€");
                     } else {
                         System.out.println("No se ha podido hacer el deposito, cantidad no válida.");
                     }
