@@ -1,5 +1,6 @@
 package Metodos;
 
+import Clases.Cryptos;
 import Clases.CuentaBancaria;
 import Clases.Usuario;
 
@@ -102,7 +103,8 @@ public class Herramientas {
                     }
                     break;
                 case "5":
-                    CuentaBancaria.InversionCrypto.invertir(cuentaPrincipal, sc.nextDouble());
+                    Cryptos InversionCrypto = null;
+                    InversionCrypto.mostrarCryptos(cuentaPrincipal);
                     break;
                 case "6":
                     cuentaPrincipal.mostrarUltimosMovimientos();

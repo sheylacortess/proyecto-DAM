@@ -82,23 +82,6 @@ public class CuentaBancaria extends ProductoBancario {
         return false;
     }
 
-    /**
-     * Invierte en cryptomonedas
-     *
-     * @param cuenta   cuenta que invierte
-     * @param cantidad
-     * @return true si exitosa, false si saldo insuficiente
-     */
-    public static boolean invertir(CuentaBancaria cuenta, double cantidad) {
-        if (cantidad > 0 && cuenta.retirar(cantidad)) {
-            double cambio = cantidad * (Math.random() * 0.7 - 0.2);  // -20% a +50%
-            cuenta.setSaldo(cuenta.getSaldo() + cambio);
-            System.out.printf("Crypto: %.2f€ → %.2f€%n", cantidad, cambio);
-            return true;
-        }
-        return false;
-    }
-
 
     /**
      * Registra nuevo movimiento que tiene como maximo 10
