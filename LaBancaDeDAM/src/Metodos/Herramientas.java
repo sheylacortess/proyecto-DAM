@@ -8,7 +8,7 @@ import java.util.Scanner;
 
 public class Herramientas {
 
-     /**
+    /**
      * Almacena el valor de la opción (tipo String) seleccionada por el usuario,
      * empleando un mensaje para pedir al usuario la introducción de datos.
      *
@@ -17,9 +17,9 @@ public class Herramientas {
      * @return opción seleccionada por el usuario.
      */
     public static String leerOpcion(String mensaje) {
-        Scanner s = new Scanner(System.in);
+        Scanner sc = new Scanner(System.in);
         System.out.print(mensaje);
-        return s.nextLine();
+        return sc.nextLine();
     }
 
     // Usuario y cuenta accesiles desde todo Herramientas
@@ -44,6 +44,7 @@ public class Herramientas {
      */
 
     public static void menu() throws InterruptedException {
+        Scanner sc = new Scanner(System.in);
         boolean continuar = true;
         String opcion = "";
         System.out.println("\nHola, bienvenido a La Banca de DAM. Que desea hacer hoy?");
@@ -71,17 +72,36 @@ public class Herramientas {
                     continuar = false;
                     break;
                 case "1":
-                    System.out.println("Saldo actual: " +  cuentaPrincipal.getSaldo());
+                    System.out.println("Saldo actual: " + cuentaPrincipal.getSaldo());
                     break;
                 case "2":
+                    System.out.println("Escriba la cantidad que quiere transferir");
+                    double cantidadTransfer =
+                            CuentaBancaria.transferir(cuenta1, cuenta2, sc.nextDouble());
                     break;
-                case  "3":
+                case "3":
+                    System.out.print("Introduce la cantidad a retirar: ");
+                    double cantidadRetiro = sc.nextDouble();
+                    if (cuenta.retirar(cantidadRetiro)) {
+                        System.out.println("Retiro realizado. Nuevo saldo: " + cuenta.getSaldo());
+                    } else {
+                        System.out.println("No tienes saldo suficiente para retirar.");
+                    }
                     break;
                 case "4":
+                    System.out.print("Introduce la cantidad a depositar: ");
+                    double cantidadDeposito = sc.nextDouble();
+                    if (cuenta.depositar(cantidadDeposito)) {
+                        System.out.println("Depósito realizado. Saldo actual: " + cuenta.getSaldo());
+                    } else {
+                        System.out.println("No se ha podido hacer el deposito, cantidad no válida.");
+                    }
                     break;
                 case "5":
+                    CuentaBancaria.InversionCrypto.invertir(cuenta1, sc.nextDouble());
                     break;
                 case "6":
+                    CuentaBancaria.mostrarUltimosMovimientos();
                     break;
                 default:
                     System.out.println("Adiós.");
