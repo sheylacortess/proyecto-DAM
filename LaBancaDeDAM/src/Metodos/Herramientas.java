@@ -102,7 +102,7 @@ public class Herramientas {
                     }
                     break;
                 case "5":
-                    CuentaBancaria.InversionCrypto.invertir(cuentaPrincipal, sc.nextDouble());
+                    CuentaBancaria.InversionCrypto.invertir(cuenta1, sc.nextDouble());
                     break;
                 case "6":
                     CuentaBancaria.mostrarUltimosMovimientos();
