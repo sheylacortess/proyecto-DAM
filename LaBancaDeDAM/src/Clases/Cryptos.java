@@ -72,7 +72,7 @@ public class Cryptos {
      * pedirle cual y cuanto desea
      * y hacer el calculo correspondiente al valor de la criptomoneda
      */
-    public static void mostrarCryptos() {
+    public static void mostrarCryptos(CuentaBancaria cuenta) {
         Scanner sc = new Scanner(System.in);
         Cryptos monedaUsuario = new Cryptos();
         System.out.println("0 -- Salir");
@@ -81,7 +81,7 @@ public class Cryptos {
         System.out.println("3 -- Solana (SOL) - - - 68.4€");
         boolean opcionValida = false;
         do {
-            String cryptoOpcion = Herramientas.leerString("Selecciona: 1 - 3: ");
+            String cryptoOpcion = Herramientas.leerOpcion("Selecciona: 1 - 3: ");
             switch (cryptoOpcion) {
                 case "0":
                     System.out.println("Gracias! Saliendo...");
@@ -117,7 +117,15 @@ public class Cryptos {
         cantidadUsuario = sc.nextDouble();
         monedaUsuario.setCantidad(cantidadUsuario);
         monedaUsuario.setCosteTotal(cantidadUsuario * monedaUsuario.getMoneda());
-        System.out.println("Usted ahora tiene un valor de: " +  monedaUsuario.getCosteTotal() + " en " +  monedaUsuario.getTipoMoneda());
+        System.out.println("Usted ahora tiene un valor de: " + monedaUsuario.getCosteTotal() + " en " + monedaUsuario.getTipoMoneda());
+
+        //para que actualice los movimientos
+        String mov = String.format("Inversión en %s: %.2f€ (valor actual: %.2f€)",
+                monedaUsuario.getTipoMoneda(),
+                cantidadUsuario,
+                monedaUsuario.getCosteTotal()
+        );
+        cuenta.actualizarMovimiento(mov);
     }
 }
 

@@ -6,8 +6,8 @@ public class CuentaBancaria extends ProductoBancario {
 
     public static CuentaBancaria InversionCrypto;
     private double saldo;
-    private static String[] movimientos = new String[10];
-    private static int indiceActual = 0;
+    private String[] movimientos = new String[10];
+    private int indiceActual = 0;
     private int totalMovimientos = 0;
 
     /**
@@ -105,7 +105,7 @@ public class CuentaBancaria extends ProductoBancario {
      *
      * @param nuevoMov
      */
-    private void actualizarMovimiento(String nuevoMov) {
+    public void actualizarMovimiento(String nuevoMov) {
         movimientos[indiceActual] = nuevoMov;
         indiceActual = (indiceActual + 1) % 10;  // 10 = movimientos.length
         totalMovimientos++;
@@ -139,7 +139,7 @@ public class CuentaBancaria extends ProductoBancario {
     /**
      * Muestra historial de movimientos recientes
      */
-    public static void mostrarUltimosMovimientos() {
+    public void mostrarUltimosMovimientos() {
         System.out.println("Ultimos movimientos:");
 
         int inicio = (indiceActual - 1 + 10) % 10;

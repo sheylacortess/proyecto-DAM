@@ -105,7 +105,7 @@ public class Herramientas {
                     CuentaBancaria.InversionCrypto.invertir(cuentaPrincipal, sc.nextDouble());
                     break;
                 case "6":
-                    CuentaBancaria.mostrarUltimosMovimientos();
+                    cuentaPrincipal.mostrarUltimosMovimientos();
                     break;
                 default:
                     System.out.println("Adiós.");
