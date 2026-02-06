@@ -22,6 +22,12 @@ public class Herramientas {
         return sc.nextLine();
     }
 
+    public static double leerDouble(String mensaje) {
+        Scanner sc = new Scanner(System.in);
+        System.out.print(mensaje);
+        return sc.nextDouble();
+    }
+
     // Usuario y cuenta accesiles desde todo Herramientas
     private static Usuario usuarioActual;
     private static CuentaBancaria cuentaPrincipal;
@@ -75,9 +81,9 @@ public class Herramientas {
                     System.out.println("Saldo actual: " + cuentaPrincipal.getSaldo());
                     break;
                 case "2":
-                    System.out.println("Escriba la cantidad que quiere transferir");
-                    double cantidadTransfer =
-                            CuentaBancaria.transferir(cuenta1, cuenta2, sc.nextDouble());
+                    double cantidadTransfer = leerDouble("Escriba la cantidad que quiere transferir: ");
+
+                    CuentaBancaria.transferir(cuentaPrincipal, cuenta2,);
                     break;
                 case "3":
                     System.out.print("Introduce la cantidad a retirar: ");
