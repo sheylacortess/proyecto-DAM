@@ -50,7 +50,7 @@ public class Herramientas {
      * @throws InterruptedException
      */
 
-    public static void menu() throws InterruptedException {
+    public static void iniciar() throws InterruptedException {
         Scanner sc = new Scanner(System.in);
         boolean continuar = true;
         String opcion = "";

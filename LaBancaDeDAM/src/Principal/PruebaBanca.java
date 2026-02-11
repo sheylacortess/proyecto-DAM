@@ -17,6 +17,6 @@ public class PruebaBanca {
         Herramientas.crearUsuario();
 
         // Mostrar menú
-        Herramientas.menu();
+        Herramientas.iniciar();
     }
 }
