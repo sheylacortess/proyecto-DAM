@@ -23,6 +23,31 @@ public class CuentaBancaria extends ProductoBancario {
         actualizarMovimiento(String.format("Cuenta creada con saldo inicial: %.2f€", saldo));
     }
 
+    // GETTERS Y SETTERS
+
+    /**
+     * @return saldo actual de la cuenta
+     */
+    public double getSaldo() {
+        return saldo;
+    }
+
+    /**
+     * Pone nuevo saldo
+     *
+     * @param saldo
+     */
+    public void setSaldo(double saldo) {
+        this.saldo = saldo;
+    }
+
+    /**
+     * @return total de movimientos realizados
+     */
+    public int getTotalMovimientos() {
+        return totalMovimientos;
+    }
+
     /**
      * Realiza depósito
      *
@@ -82,31 +107,6 @@ public class CuentaBancaria extends ProductoBancario {
                 break;  //por si no ha hecho ningun moviemiento
             }
         }
-    }
-
-    // GETTERS Y SETTERS
-
-    /**
-     * @return saldo actual de la cuenta
-     */
-    public double getSaldo() {
-        return saldo;
-    }
-
-    /**
-     * Pone nuevo saldo
-     *
-     * @param saldo
-     */
-    public void setSaldo(double saldo) {
-        this.saldo = saldo;
-    }
-
-    /**
-     * @return total de movimientos realizados
-     */
-    public int getTotalMovimientos() {
-        return totalMovimientos;
     }
 
     /**
