@@ -82,7 +82,7 @@ public class Herramientas {
                     System.out.println("Saldo actual: " + cuentaPrincipal.getSaldo() + "€");
                     break;
                 case "2":
-                    double cantidadTransfer = leerDouble("Escriba la cantidad que quiere transferir: ");
+                    System.out.println("Esta opción aun está pendiente de desarrollo. ");
                     break;
                 case "3":
                     System.out.print("Introduce la cantidad a retirar: ");

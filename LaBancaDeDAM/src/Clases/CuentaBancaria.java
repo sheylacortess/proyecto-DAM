@@ -24,16 +24,6 @@ public class CuentaBancaria extends ProductoBancario {
     }
 
     /**
-     * Genera resumen de la cuenta
-     *
-     * @return String con ID y saldo actual
-     */
-    @Override
-    public String resumen() {
-        return "Cuenta ID " + id + ", Saldo " + saldo + "€";
-    }
-
-    /**
      * Realiza depósito
      *
      * @param cantidad cantidad a depositar
@@ -66,24 +56,6 @@ public class CuentaBancaria extends ProductoBancario {
     }
 
     /**
-     * Transfiere dinero entre dos cuentas
-     *
-     * @param origen   cuenta que envía dinero
-     * @param destino  cuenta que recibe dinero
-     * @param cantidad
-     * @return true si exitosa, false si saldo insuficiente
-     */
-    public static boolean transferir(CuentaBancaria origen, CuentaBancaria destino, double cantidad) {
-        if (cantidad > 0 && origen.retirar(cantidad) && destino.depositar(cantidad)) {
-            System.out.printf("Dinero transferido %.2f€ → %d%n", cantidad, destino.id);
-            return true;
-        }
-        System.out.println("Transferencia fallida");
-        return false;
-    }
-
-
-    /**
      * Registra nuevo movimiento que tiene como maximo 10
      *
      * @param nuevoMov
@@ -92,6 +64,24 @@ public class CuentaBancaria extends ProductoBancario {
         movimientos[indiceActual] = nuevoMov;
         indiceActual = (indiceActual + 1) % 10;  // 10 = movimientos.length
         totalMovimientos++;
+    }
+
+    /**
+     * Muestra historial de movimientos recientes
+     */
+    public void mostrarUltimosMovimientos() {
+        System.out.println("Ultimos movimientos:");
+
+        int inicio = (indiceActual - 1 + 10) % 10;
+
+        for (int i = 0; i < 10; i++) {
+            int pos = (inicio - i + 10) % 10;
+            if (movimientos[pos] != null) {
+                System.out.println((i + 1) + ". " + movimientos[pos]);
+            } else {
+                break;  //por si no ha hecho ningun moviemiento
+            }
+        }
     }
 
     // GETTERS Y SETTERS
@@ -120,20 +110,12 @@ public class CuentaBancaria extends ProductoBancario {
     }
 
     /**
-     * Muestra historial de movimientos recientes
+     * Genera resumen de la cuenta
+     *
+     * @return String con ID y saldo actual
      */
-    public void mostrarUltimosMovimientos() {
-        System.out.println("Ultimos movimientos:");
-
-        int inicio = (indiceActual - 1 + 10) % 10;
-
-        for (int i = 0; i < 10; i++) {
-            int pos = (inicio - i + 10) % 10;
-            if (movimientos[pos] != null) {
-                System.out.println((i + 1) + ". " + movimientos[pos]);
-            } else {
-                break;  //por si no ha hecho ningun moviemiento
-            }
-        }
+    @Override
+    public String resumen() {
+        return "Cuenta ID " + id + ", Saldo " + saldo + "€";
     }
 }
