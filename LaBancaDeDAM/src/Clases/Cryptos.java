@@ -9,7 +9,6 @@ public class Cryptos {
     private double moneda;
     private String tipoMoneda;
     private double cantidad;
-    private double precioPorUnidad;
     private double costeTotal;
 
     private static final double BTC = 56000.0;
@@ -21,15 +20,13 @@ public class Cryptos {
         this.moneda = 0;
         this.tipoMoneda = "";
         this.cantidad = 0;
-        this.precioPorUnidad = 0;
         this.costeTotal = 0;
     }
 
-    public Cryptos(double moneda, double cantidad, double precioPorUnidad, double costeTotal) {
+    public Cryptos(double moneda, double cantidad, double costeTotal) {
         this.moneda = moneda;
         this.tipoMoneda = "";
         this.cantidad = cantidad;
-        this.precioPorUnidad = precioPorUnidad;
         this.costeTotal = costeTotal;
     }
 
