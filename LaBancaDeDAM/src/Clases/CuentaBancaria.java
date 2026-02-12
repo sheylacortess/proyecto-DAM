@@ -32,16 +32,6 @@ public class CuentaBancaria extends ProductoBancario {
     }
 
     /**
-     * Genera resumen de la cuenta
-     *
-     * @return String con ID y saldo actual
-     */
-    @Override
-    public String resumen() {
-        return "Cuenta ID " + id + ", Saldo " + saldo + "€";
-    }
-
-    /**
      * Realiza depósito
      *
      * @param cantidad cantidad a depositar
@@ -143,5 +133,15 @@ public class CuentaBancaria extends ProductoBancario {
                 break;  //por si no ha hecho ningun moviemiento
             }
         }
+    }
+
+    /**
+     * Genera resumen de la cuenta
+     *
+     * @return String con ID y saldo actual
+     */
+    @Override
+    public String resumen() {
+        return "Cuenta ID " + id + ", Saldo " + saldo + "€";
     }
 }
