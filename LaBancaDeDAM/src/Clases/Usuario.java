@@ -9,6 +9,7 @@ public class Usuario {
 
     /**
      * constructor
+     *
      * @param nombre
      * @param dni
      * @param email
@@ -18,10 +19,11 @@ public class Usuario {
         this.dni = dni;
         this.email = email;
     }
-// getters y setters
+
+    // GETTERS - NO SETTERS
 
     /**
-     * @return  nombre del usuario
+     * @return nombre del usuario
      */
     public String getNombre() {
         return nombre;
