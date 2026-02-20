@@ -35,6 +35,7 @@ public class Herramientas {
 
     public static void crearUsuario() {
         String dni;
+        String email;
         String nombre = Herramientas.leerOpcion("Introduzca su usuario: ");
         do {
             dni = Herramientas.leerOpcion("Introduzca su DNI: ");
@@ -43,7 +44,12 @@ public class Herramientas {
                 System.out.println();
             }
         } while (!Herramientas.validaFormatoDNI(dni));
-        String email = Herramientas.leerOpcion("Introduzca su email: ");
+        do {
+            email = Herramientas.leerOpcion("Introduzca su email: ");
+            if (!Clases.EmailUtils.validarEmail(email)) {
+                System.out.println("Introduce un email válido, por favor.");
+            }
+        } while (!Clases.EmailUtils.validarEmail(email));
 
         usuarioActual = new Usuario(nombre, dni, email);
         cuentaPrincipal = new CuentaBancaria(usuarioActual); // Aqui se crea la cuenta
