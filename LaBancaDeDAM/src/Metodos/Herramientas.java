@@ -34,14 +34,46 @@ public class Herramientas {
     private static CuentaBancaria cuentaPrincipal;
 
     public static void crearUsuario() {
+        String dni;
         String nombre = Herramientas.leerOpcion("Introduzca su usuario: ");
-        String dni = Herramientas.leerOpcion("Introduzca su DNI: ");
+        do {
+            dni = Herramientas.leerOpcion("Introduzca su DNI: ");
+            if (!Herramientas.validaFormatoDNI(dni)) {
+                System.out.print("Introduzca un DNI válido, porfavor.");
+                System.out.println();
+            }
+        } while (!Herramientas.validaFormatoDNI(dni));
         String email = Herramientas.leerOpcion("Introduzca su email: ");
 
         usuarioActual = new Usuario(nombre, dni, email);
         cuentaPrincipal = new CuentaBancaria(usuarioActual); // Aqui se crea la cuenta
 
         System.out.println("Usuario creado: " + usuarioActual);
+    }
+
+    // Validador DNI
+    public static boolean validaFormatoDNI(String dni) {
+        // comprobar longitud
+        dni = dni.trim();
+        if (dni.length() != 9) {
+            return false;
+        }
+
+        // comprobar que los 8 primeros sean dígitos
+        for (int i = 0; i < 8; i++) {
+            char c = dni.charAt(i);
+            if (!Character.isDigit(c)) {
+                return false;
+            }
+        }
+
+        // comprobar que el último sea una letra
+        char ultimo = dni.charAt(8);
+        if (!Character.isLetter(ultimo)) {
+            return false;
+        }
+
+        return true;
     }
 
     /**
