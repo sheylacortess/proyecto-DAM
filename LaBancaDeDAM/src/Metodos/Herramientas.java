@@ -29,7 +29,7 @@ public class Herramientas {
         return sc.nextDouble();
     }
 
-    // Usuario y cuenta accesiles desde todo Herramientas
+    // Usuario y cuenta accesibles desde toda la clase Herramientas
     private static Usuario usuarioActual;
     private static CuentaBancaria cuentaPrincipal;
 
