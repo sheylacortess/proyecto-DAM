@@ -36,7 +36,13 @@ public class Herramientas {
     public static void crearUsuario() {
         String dni;
         String email;
-        String nombre = Herramientas.leerOpcion("Introduzca su usuario: ");
+        String nombre;
+        do {
+            nombre = Herramientas.leerOpcion("Introduzca su usuario: ");
+            if (nombre.isEmpty()) {
+                System.out.println("Error. Debe ingresar un nombre.");
+            }
+        } while (nombre.isEmpty());
         do {
             dni = Herramientas.leerOpcion("Introduzca su DNI: ");
             if (!Herramientas.validaFormatoDNI(dni)) {
