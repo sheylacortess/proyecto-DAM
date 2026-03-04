@@ -1,8 +1,11 @@
 package Clases;
 
+import Interfaces.IMovimientos;
+import Interfaces.IOperable;
+
 import java.util.Random;
 
-public class CuentaBancaria extends ProductoBancario {
+public class CuentaBancaria extends ProductoBancario implements IOperable, IMovimientos {
 
     private double saldo;
     private String[] movimientos = new String[10];
