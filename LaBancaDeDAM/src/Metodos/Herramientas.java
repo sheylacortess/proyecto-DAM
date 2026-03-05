@@ -30,6 +30,12 @@ public class Herramientas {
         return sc.nextDouble();
     }
 
+    public static int leerInt(String mensaje) {
+        Scanner sc = new Scanner(System.in);
+        System.out.print(mensaje);
+        return sc.nextInt();
+    }
+
     // Usuario y cuenta accesibles desde toda la clase Herramientas
     private static Usuario usuarioActual;
     private static CuentaBancaria cuentaPrincipal;
@@ -180,14 +186,8 @@ public class Herramientas {
                     break;
 
                 case "5":
-                    try {
-                        Cryptos InversionCrypto = new Cryptos();
-                        InversionCrypto.mostrarCryptos(cuentaPrincipal);
-                    } catch (NullPointerException e) {
-                        System.out.println("Error: no se ha podido cargar el módulo de inversión.");
-                    }
+                    Cryptos.iniciarCryptos();
                     break;
-
                 case "6":
                     cuentaPrincipal.mostrarUltimosMovimientos();
                     break;
