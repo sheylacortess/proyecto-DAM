@@ -1,4 +1,4 @@
-package Interfaces;
+package interfaces;
 
 public interface IOperable {
     boolean depositar(double cantidad);

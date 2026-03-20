@@ -1,7 +1,6 @@
-package Principal;
+package principal;
 
-import Clases.*;
-import Metodos.Herramientas;
+import metodos.Herramientas;
 
 /**
  * Clase main para ejecutar el programa

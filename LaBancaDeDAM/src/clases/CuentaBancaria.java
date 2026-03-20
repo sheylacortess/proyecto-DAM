@@ -1,7 +1,7 @@
-package Clases;
+package clases;
 
-import Interfaces.IMovimientos;
-import Interfaces.IOperable;
+import interfaces.IMovimientos;
+import interfaces.IOperable;
 
 import java.util.Random;
 

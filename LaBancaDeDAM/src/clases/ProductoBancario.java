@@ -1,6 +1,6 @@
-package Clases;
+package clases;
 
-import Interfaces.IOperable;
+import interfaces.IOperable;
 
 public abstract class ProductoBancario implements IOperable {
     protected int id;

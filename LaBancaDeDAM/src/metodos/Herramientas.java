@@ -1,8 +1,8 @@
-package Metodos;
+package metodos;
 
-import Clases.Cryptos;
-import Clases.CuentaBancaria;
-import Clases.Usuario;
+import clases.Cryptos;
+import clases.CuentaBancaria;
+import clases.Usuario;
 
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -68,7 +68,7 @@ public class Herramientas {
         while (email == null) {
             try {
                 email = Herramientas.leerOpcion("Introduzca su email: ");
-                if (!Clases.EmailUtils.validarEmail(email)) {
+                if (!clases.EmailUtils.validarEmail(email)) {
                     throw new IllegalArgumentException("Error. Debe ingresar un email válido.");
                 }
             } catch (IllegalArgumentException e) {
@@ -181,8 +181,8 @@ public class Herramientas {
 
                 case "5":
                     try {
-                        Cryptos InversionCrypto = new Cryptos();
-                        InversionCrypto.mostrarCryptos(cuentaPrincipal);
+                        Cryptos inversionCrypto = new Cryptos();
+                        inversionCrypto.mostrarCryptos(cuentaPrincipal);
                     } catch (NullPointerException e) {
                         System.out.println("Error: no se ha podido cargar el módulo de inversión.");
                     }

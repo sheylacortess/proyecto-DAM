@@ -1,4 +1,4 @@
-package Clases;
+package clases;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

@@ -1,6 +1,6 @@
-package Clases;
+package clases;
 
-import Metodos.Herramientas;
+import metodos.Herramientas;
 
 import java.util.Scanner;
 
