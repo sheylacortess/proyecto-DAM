@@ -1,5 +1,6 @@
 package metodos;
 
+import clases.CryptoBank;
 import clases.Cryptos;
 import clases.CuentaBancaria;
 import clases.Usuario;
@@ -30,9 +31,17 @@ public class Herramientas {
         return sc.nextDouble();
     }
 
+    // Declaración de un Scanner para usarlo de forma centralizada
+    private static Scanner sc = new Scanner(System.in);
+
     // Usuario y cuenta accesibles desde toda la clase Herramientas
     private static Usuario usuarioActual;
     private static CuentaBancaria cuentaPrincipal;
+
+    // Getter para poder trabajar con la cuenta desde otras clases
+    public static CuentaBancaria getCuentaPrincipal() {
+        return cuentaPrincipal;
+    }
 
     public static void crearUsuario() {
         String dni = null;
@@ -42,6 +51,10 @@ public class Herramientas {
         while (nombre == null) {
             try {
                 nombre = Herramientas.leerOpcion("Introduzca su usuario: ");
+                if (nombre.equals("D")) {
+                    dni = "00000000U";
+                    email = "d@gmail.com";
+                }
                 if (nombre.isEmpty()) {
                     throw new IllegalArgumentException("Error. Debe ingresar un nombre.");
                 }
@@ -118,7 +131,7 @@ public class Herramientas {
         String opcion = "";
         System.out.println("\nHola, bienvenido a La Banca de DAM. Que desea hacer hoy?");
         do {
-            System.out.println("0 - Salir.");
+            System.out.println("\n0 - Salir.");
             System.out.println("1 - Ver saldo de la cuenta.");
             System.out.println("2 - Transferir dinero. (NO)");
             System.out.println("3 - Retirar dinero.");
@@ -190,6 +203,9 @@ public class Herramientas {
 
                 case "6":
                     cuentaPrincipal.mostrarUltimosMovimientos();
+                    break;
+                case "7":
+                    CryptoBank.iniciar();
                     break;
                 default:
                     System.out.println("Opción no válida. Por favor, elija una opción del menú.");

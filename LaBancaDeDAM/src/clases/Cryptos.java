@@ -2,6 +2,7 @@ package clases;
 
 import metodos.Herramientas;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Cryptos {
@@ -70,7 +71,6 @@ public class Cryptos {
      * y hacer el calculo correspondiente al valor de la criptomoneda
      */
     public static void mostrarCryptos(CuentaBancaria cuenta) {
-        Scanner sc = new Scanner(System.in);
         Cryptos monedaUsuario = new Cryptos();
         System.out.println("0 -- Salir");
         System.out.println("1 -- Ethereum (ETH) - - - 1600.0€");
@@ -104,14 +104,14 @@ public class Cryptos {
                     break;
             }
         } while (!opcionValida);
-        double cantidadUsuario;
-        System.out.println("Introduce en € la cantidad deseada: ");
-        while (!sc.hasNextDouble()) {
-            String basura = sc.next();
-            System.out.println("Opción no válida. Por favor, pruebe de nuevo. ");
-            System.out.println("Introduzca en € la cantidad deseada: ");
-        }
-        cantidadUsuario = sc.nextDouble();
+        double cantidadUsuario = 0;
+        do {
+            try {
+                cantidadUsuario = Herramientas.leerDouble("Ingresa el cantidad del usuario: ");
+            } catch (InputMismatchException e) {
+                System.out.println("Ingrese un valor correcto.");
+            }
+        } while (cantidadUsuario == 0);
         monedaUsuario.setCantidad(cantidadUsuario);
         monedaUsuario.setCosteTotal(cantidadUsuario * monedaUsuario.getMoneda());
         System.out.println("Usted ahora tiene un valor de: " + monedaUsuario.getCosteTotal() + " en " + monedaUsuario.getTipoMoneda());
