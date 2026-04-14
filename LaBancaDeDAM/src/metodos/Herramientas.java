@@ -1,7 +1,6 @@
 package metodos;
 
 import clases.CryptoBank;
-import clases.Cryptos;
 import clases.CuentaBancaria;
 import clases.Usuario;
 
@@ -136,7 +135,7 @@ public class Herramientas {
             System.out.println("2 - Transferir dinero. (NO)");
             System.out.println("3 - Retirar dinero.");
             System.out.println("4 - Hacer un depósito.");
-            System.out.println("5 - Invertir.");
+            System.out.println("5 - Criptomonedas.");
             System.out.println("6 - Ver historial de movimientos.");
 
             opcion = leerOpcion("\nElija una opción: ");
@@ -193,19 +192,10 @@ public class Herramientas {
                     break;
 
                 case "5":
-                    try {
-                        Cryptos inversionCrypto = new Cryptos();
-                        inversionCrypto.mostrarCryptos(cuentaPrincipal);
-                    } catch (NullPointerException e) {
-                        System.out.println("Error: no se ha podido cargar el módulo de inversión.");
-                    }
+                    CryptoBank.iniciar();
                     break;
-
                 case "6":
                     cuentaPrincipal.mostrarUltimosMovimientos();
-                    break;
-                case "7":
-                    CryptoBank.iniciar();
                     break;
                 default:
                     System.out.println("Opción no válida. Por favor, elija una opción del menú.");
