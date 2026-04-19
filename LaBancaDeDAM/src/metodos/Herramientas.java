@@ -30,6 +30,12 @@ public class Herramientas {
         return sc.nextDouble();
     }
 
+    public static int leerInt(String mensaje) {
+        Scanner sc = new Scanner(System.in);
+        System.out.print(mensaje);
+        return sc.nextInt();
+    }
+
     // Declaración de un Scanner para usarlo de forma centralizada
     private static Scanner sc = new Scanner(System.in);
 

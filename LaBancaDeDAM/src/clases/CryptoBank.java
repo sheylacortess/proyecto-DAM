@@ -2,6 +2,7 @@ package clases;
 
 import excepciones.*;
 import metodos.Herramientas;
+import metodos.HerramientasCriptomonedas;
 
 import java.util.InputMismatchException;
 
@@ -152,29 +153,57 @@ public class CryptoBank {
      * - Sumar los € a Wallet
      */
     static void vender() {
-        boolean continuarVender = true;
+        boolean seguirVender = true; // Segundo do-while
         do {
-            System.out.println("Tus criptomonedas en Wallet: ");
-            for (Crypto c : wallet.getCryptos()) {
-                System.out.println(c.getNombre() + "  =  " + c.getCantidad());
-            }
+            // Mostrar las criptomonedas y su conversión a €
+            HerramientasCriptomonedas.mostrarCriptomonedasVender(wallet);
+            String criptomonedaSeleccionada = "";
+            boolean seguirCriptomonedaSeleccionada = true;
+            do {
+                try {
+                    criptomonedaSeleccionada = Herramientas.leerOpcion("Seleccione la criptomoneda que desea vender: ");
+                    if (criptomonedaSeleccionada.equals("0")) {
+                        seguirCriptomonedaSeleccionada = false;
+                    } else if (!criptomonedaSeleccionada.equalsIgnoreCase("BTC") && !criptomonedaSeleccionada.equalsIgnoreCase("ETH") && !criptomonedaSeleccionada.equalsIgnoreCase("SOL")) {
+                        throw new VenderCryptoExcepciones.CriptomonedaSeleccionadaException("Seleccione una criptomoneda válida, por favor (BTC, ETH, SOL)");
+                    }
+                    criptomonedaSeleccionada = criptomonedaSeleccionada.toUpperCase(); // Pasar la crypto a Mayus para no tanto lío
+                    switch (criptomonedaSeleccionada) {
+                        case "BTC" -> {
+                            if (wallet.getCryptos().get(0).getCantidad() <= 0) {
+                                throw new VenderCryptoExcepciones.CriptomonedaSeleccionadaException("No dispone de BTC para vender.");
+                            } else {
+                                if (HerramientasCriptomonedas.funcionElegirEuroOCrypto(wallet, 0)) {
+                                    System.out.println("'prueba' --> !HAS SELECCIONADO €!");
+                                } else {
+                                    System.out.println("'prueba' --> !HAS SELECCIONADO " + wallet.getCryptos().get(0).getNombre() + "!");
 
-            try {
-                String eleccionVender = Herramientas.leerOpcion("Seleccione la criptomoneda que desea vender (BTC, ETH, SOL): ");
-                System.out.println("0. Salir");
-                if (!eleccionVender.equalsIgnoreCase("BTC") &&  !eleccionVender.equalsIgnoreCase("ETH") && !eleccionVender.equalsIgnoreCase("SOL")) {
-                    throw new EleccionVentaNoValida("Por favor, seleccione una opción válida (BTC, ETH, SOL)");
-                }
-                if (eleccionVender.equals("0")) {
-                    continuarVender = false;
-                }
+                                }
 
-            } catch (InputMismatchException e) {
-                System.out.println("Introduzca un valor válido, porfavor.");
-            } catch (EleccionVentaNoValida e) {
-                System.out.println(e.getMessage());
-            }
-        } while (continuarVender);
+
+                                /**
+                                 *  TE HAS QUEDADO AQUI CON EL METODO DE SELECCIONAR EL FORMATO DE LA VENTA, SOLO LO HAS PUESTO EN BTC, REVISA EL METODO EN HerramientasCriptomonedas
+                                 */
+
+                            }
+                        }
+                        case "ETH" -> {
+                            if (wallet.getCryptos().get(1).getCantidad() <= 0) {
+                                throw new VenderCryptoExcepciones.CriptomonedaSeleccionadaException("No dispone de ETH para vender.");
+                            }
+                        }
+                        case "SOL" -> {
+                            if (wallet.getCryptos().get(2).getCantidad() <= 0) {
+                                throw new VenderCryptoExcepciones.CriptomonedaSeleccionadaException("No dispone de SOL para vender.");
+                            }
+                        }
+                    }
+                } catch (VenderCryptoExcepciones.CriptomonedaSeleccionadaException e) {
+                    System.out.println(e.getMessage());
+                }
+            } while (seguirCriptomonedaSeleccionada);
+            seguirVender = false;
+        } while (seguirVender);
     }
 
     static void opcionesWallet() {
