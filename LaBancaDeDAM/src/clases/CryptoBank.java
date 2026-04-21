@@ -2,6 +2,7 @@ package clases;
 
 import excepciones.*;
 import metodos.Herramientas;
+import metodos.HerramientasCriptomonedas;
 
 import java.util.InputMismatchException;
 
@@ -54,7 +55,7 @@ public class CryptoBank {
                 if (eleccion.equals("0")) {
                     continuar = false;
                 }
-                if (!eleccion.equals("BTC") && !eleccion.equals("ETH") && !eleccion.equals("SOL")) {
+                if (!eleccion.equalsIgnoreCase("BTC") && !eleccion.equalsIgnoreCase("ETH") && !eleccion.equalsIgnoreCase("SOL")) {
                     throw new EleccionCompraNoValida("Por favor, seleccione una opción válida (BTC, ETH, SOL)");
                 }
                 double cantidadEurosCompra = Herramientas.leerDouble("Introduce la cantidad en €: ");
@@ -152,29 +153,41 @@ public class CryptoBank {
      * - Sumar los € a Wallet
      */
     static void vender() {
-        boolean continuarVender = true;
+        boolean seguirVender = true; // Segundo do-while
         do {
-            System.out.println("Tus criptomonedas en Wallet: ");
-            for (Crypto c : wallet.getCryptos()) {
-                System.out.println(c.getNombre() + "  =  " + c.getCantidad());
-            }
-
-            try {
-                String eleccionVender = Herramientas.leerOpcion("Seleccione la criptomoneda que desea vender (BTC, ETH, SOL): ");
-                System.out.println("0. Salir");
-                if (!eleccionVender.equalsIgnoreCase("BTC") &&  !eleccionVender.equalsIgnoreCase("ETH") && !eleccionVender.equalsIgnoreCase("SOL")) {
-                    throw new EleccionVentaNoValida("Por favor, seleccione una opción válida (BTC, ETH, SOL)");
+            // Mostrar las criptomonedas y su conversión a €
+            HerramientasCriptomonedas.mostrarCriptomonedasVender(wallet);
+            String criptomonedaSeleccionada = "";
+            boolean seguirCriptomonedaSeleccionada = true;
+            do {
+                try {
+                    criptomonedaSeleccionada = Herramientas.leerOpcion("Seleccione la criptomoneda que desea vender: ");
+                    if (criptomonedaSeleccionada.equals("0")) {
+                        seguirCriptomonedaSeleccionada = false;
+                    } else if (!criptomonedaSeleccionada.equalsIgnoreCase("BTC") && !criptomonedaSeleccionada.equalsIgnoreCase("ETH") && !criptomonedaSeleccionada.equalsIgnoreCase("SOL")) {
+                        throw new VenderCryptoExcepciones.CriptomonedaSeleccionadaException("Seleccione una criptomoneda válida, por favor (BTC, ETH, SOL)");
+                    }
+                    criptomonedaSeleccionada = criptomonedaSeleccionada.toUpperCase(); // Pasar la crypto a Mayus para no tanto lío
+                    switch (criptomonedaSeleccionada) {
+                        case "BTC" -> {
+                            HerramientasCriptomonedas.venderCrypto(wallet, 0, "BTC");
+                            seguirCriptomonedaSeleccionada = false;
+                        }
+                        case "ETH" -> {
+                            HerramientasCriptomonedas.venderCrypto(wallet, 1, "ETH");
+                            seguirCriptomonedaSeleccionada = false;
+                        }
+                        case "SOL" -> {
+                            HerramientasCriptomonedas.venderCrypto(wallet, 2, "SOL");
+                            seguirCriptomonedaSeleccionada = false;
+                        }
+                    }
+                } catch (VenderCryptoExcepciones.CriptomonedaSeleccionadaException e) {
+                    System.out.println(e.getMessage());
                 }
-                if (eleccionVender.equals("0")) {
-                    continuarVender = false;
-                }
-
-            } catch (InputMismatchException e) {
-                System.out.println("Introduzca un valor válido, porfavor.");
-            } catch (EleccionVentaNoValida e) {
-                System.out.println(e.getMessage());
-            }
-        } while (continuarVender);
+            } while (seguirCriptomonedaSeleccionada);
+            seguirVender = false;
+        } while (seguirVender);
     }
 
     static void opcionesWallet() {
