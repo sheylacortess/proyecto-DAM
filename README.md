@@ -5,3 +5,9 @@
 - ArrayList
 - Composición de objetos
 - Excepcion/es propias
+
+21/04/26
+### Cosas que faltan
+- HashMap
+- Trabajar con ficheros
+- Excepciones programadas
