@@ -170,37 +170,16 @@ public class CryptoBank {
                     criptomonedaSeleccionada = criptomonedaSeleccionada.toUpperCase(); // Pasar la crypto a Mayus para no tanto lío
                     switch (criptomonedaSeleccionada) {
                         case "BTC" -> {
-                            if (wallet.getCryptos().get(0).getCantidad() <= 0) {
-                                throw new VenderCryptoExcepciones.CriptomonedaSeleccionadaException("No dispone de BTC para vender.");
-                            } else {
-                                double cantidadAVender;
-                                if (HerramientasCriptomonedas.funcionElegirEuroOCrypto(wallet, 0)) {
-                                    System.out.println("'prueba' --> !HAS SELECCIONADO €!");
-                                    cantidadAVender = HerramientasCriptomonedas.preguntarCantidadAVenderEuros(wallet, 0);
-                                    /**
-                                     * ¡TE HAS QUEDADO AQUI!
-                                     * AQUI YA HABRÍA QUE HACER LA "TRANSACCION" CON LA CANTIDAD EN € YA VALIDADA
-                                     *
-                                     * 1. SUMARLE LA CANTIDAD DE € AL WALLET
-                                     * 2. RESTARLE LA CANTIDAD(CÁLCULO) A LA CRYPTO(BTC)
-                                     */
-                                } else {
-                                    System.out.println("'prueba' --> !HAS SELECCIONADO " + wallet.getCryptos().get(0).getNombre() + "!");
-
-                                }
-
-
-                            }
+                            HerramientasCriptomonedas.venderCrypto(wallet, 0, "BTC");
+                            seguirCriptomonedaSeleccionada = false;
                         }
                         case "ETH" -> {
-                            if (wallet.getCryptos().get(1).getCantidad() <= 0) {
-                                throw new VenderCryptoExcepciones.CriptomonedaSeleccionadaException("No dispone de ETH para vender.");
-                            }
+                            HerramientasCriptomonedas.venderCrypto(wallet, 1, "ETH");
+                            seguirCriptomonedaSeleccionada = false;
                         }
                         case "SOL" -> {
-                            if (wallet.getCryptos().get(2).getCantidad() <= 0) {
-                                throw new VenderCryptoExcepciones.CriptomonedaSeleccionadaException("No dispone de SOL para vender.");
-                            }
+                            HerramientasCriptomonedas.venderCrypto(wallet, 2, "SOL");
+                            seguirCriptomonedaSeleccionada = false;
                         }
                     }
                 } catch (VenderCryptoExcepciones.CriptomonedaSeleccionadaException e) {

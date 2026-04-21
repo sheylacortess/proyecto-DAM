@@ -12,7 +12,7 @@ public class HerramientasCriptomonedas {
     public static void mostrarCriptomonedasVender(Wallet wallet) {
         System.out.println("\nTus criptomonedas en Wallet: ");
         for (Crypto c : wallet.getCryptos()) {
-            System.out.printf("%s = %-10s------   %10.2f€%n",
+            System.out.printf("%s = %-16.6f ------   %10.2f€%n",
                     c.getNombre(),
                     c.getCantidad(),
                     c.getPrecio() * c.getCantidad()
@@ -84,82 +84,73 @@ public class HerramientasCriptomonedas {
         }
     }
 
+    public static double preguntarCantidadAVenderCriptomonedas(Wallet wallet, int indiceCrypto) {
+        double cantidad;
+        double maxCriptomoneda = wallet.getCryptos().get(indiceCrypto).getCantidad();
+
+        while (true) {
+            try {
+                cantidad = Herramientas.leerDouble("Ingrese la cantidad en " + wallet.getCryptos().get(indiceCrypto).getNombre() + " que desea vender (los decimales separados con ','): ");
+
+                if (cantidad <= 0) {
+                    throw new VenderCryptoExcepciones.CriptomonedaSeleccionadaException("La cantidad no puede ser 0 o menos.");
+                }
+
+                if (cantidad > maxCriptomoneda) {
+                    throw new VenderCryptoExcepciones.CriptomonedaSeleccionadaException("No dispone de la cantidad suficiente de " + wallet.getCryptos().get(indiceCrypto).getNombre());
+                }
+
+                return cantidad;
+            } catch (InputMismatchException e) {
+                System.out.println("Introduzca una cantidad válida.");
+            } catch (VenderCryptoExcepciones.CriptomonedaSeleccionadaException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+    }
+
     /**
-     *  do {
-     *                 try {
-     *                     String eleccionCryptoVender = Herramientas.leerOpcion("Escriba la crypto que desea vender (BTC, ETH, SOL): ");
-     *                     eleccionCryptoVender = eleccionCryptoVender.toUpperCase(); // Convertir la eleccion a UPPER para usarla sin complicaciones de sintaxis
-     *                     // Crear un indice para trabajar con el arrayList del Wallet con las cryptos
-     *                     int indice = 0;
-     *                     switch (eleccionCryptoVender) {
-     *                         case "BTC" -> indice = 0;
-     *                         case "ETH" -> indice = 1;
-     *                         case "SOL" -> indice = 2;
-     *                     }
-     *                     if (eleccionCryptoVender.equals("0")) {
-     *                         seguirVender = false;
-     *                     }
-     *                     if (eleccionCryptoVender.equals("BTC") || eleccionCryptoVender.equals("ETH") ||  eleccionCryptoVender.equals("SOL")) {
+     * Metodo que vende la criptomoneda que le entre por parametro
      *
-     *                         // Preguntar por formato en el que quiere vender (€ / CRYPTO)
-     *                         boolean formatoContinuar = true;
-     *                         String formatoElegido = "";
-     *                         do {
-     *                             try {
-     *                                 formatoElegido = Herramientas.leerOpcion("En qué formato desea vender (€ / " + eleccionCryptoVender + "): ");
-     *                                 if (formatoElegido.equals("€") || formatoElegido.equalsIgnoreCase(eleccionCryptoVender)) {
-     *                                     System.out.println("Formato seleccionado: " +  formatoElegido);
-     *                                 } else {
-     *                                     throw new VenderCryptoExcepciones.FormatoElegidoNoValido("Introduzca (€ / " + eleccionCryptoVender + "): ");
-     *                                 }
-     *                                 formatoContinuar = false;
-     *                             } catch (InputMismatchException e) {
-     *                                 System.out.println("Introduzca un valor válido, porfavor.");
-     *                             } catch (VenderCryptoExcepciones.FormatoElegidoNoValido e) {
-     *                                 System.out.println(e.getMessage());
-     *                             }
-     *                         } while (formatoContinuar);
-     *
-     *                         // Cuando ya se obtiene el formato deseado se pregunta por la cantidad depende de lo que haya elegido
-     *                         boolean preguntarCantidad = true;
-     *                         double cantidadVenderEnEuros;
-     *                         double cantidadVenderEnCrypto;
-     *                         do {
-     *                             if (formatoElegido.equals("€")) {
-     *                                 boolean continuarEuros = true;
-     *                                 do {
-     *                                     try {
-     *                                         cantidadVenderEnEuros = Herramientas.leerDouble("Introduzca la cantidad en € que desea vender: ");
-     *                                         if (cantidadVenderEnEuros > wallet.getCryptos().get(indice).getCantidad() * wallet.getCryptos().get(indice).getPrecio()) {
-     *                                             throw new VenderCryptoExcepciones.CantidadEurosNoValida("Cantidad insuficiente.");
-     *                                         }
-     *                                     } catch (InputMismatchException e) {
-     *                                         System.out.println("Introduzca una cantidad válida, por favor.");
-     *                                     } catch (VenderCryptoExcepciones.CantidadEurosNoValida e) {
-     *                                         System.out.println(e.getMessage());
-     *                                     }
-     *                                 } while (continuarEuros);
-     *                             } else {
-     *
-     *                             }
-     *                         } while (preguntarCantidad);
-     *                         switch (eleccionCryptoVender) {
-     *                             case "BTC" -> {
-     *
-     *                             }
-     *                             case "ETH" -> {
-     *
-     *                             }
-     *                             case "SOL" -> {
-     *
-     *                             }
-     *                         }
-     *                     }
-     *
-     *                 } catch (InputMismatchException e) {
-     *                     System.out.println("Introduzca un valor válido, porfavor.");
-     *                 }
-     *             } while (seguirVender);
-     *             continuarVender = false;
+     * @param wallet
+     * @param indiceCrypto
+     * @param nombreCrypto
+     * @throws VenderCryptoExcepciones.CriptomonedaSeleccionadaException
      */
+    public static void venderCrypto(Wallet wallet, int indiceCrypto, String nombreCrypto) throws VenderCryptoExcepciones.CriptomonedaSeleccionadaException {
+        if (wallet.getCryptos().get(indiceCrypto).getCantidad() <= 0) {
+            throw new VenderCryptoExcepciones.CriptomonedaSeleccionadaException("No dispone de BTC para vender.");
+        } else {
+            double cantidadAVenderEnEuros;
+            double cantidadAVenderEnCriptomonedas;
+            if (HerramientasCriptomonedas.funcionElegirEuroOCrypto(wallet, indiceCrypto)) {
+                cantidadAVenderEnEuros = HerramientasCriptomonedas.preguntarCantidadAVenderEuros(wallet, indiceCrypto);
+                double cryptoARestar = cantidadAVenderEnEuros / wallet.getCryptos().get(indiceCrypto).getPrecio();
+
+                // TRANSACCIÓN:
+                wallet.getCryptos().get(indiceCrypto).setCantidad(wallet.getCryptos().get(indiceCrypto).getCantidad() - cryptoARestar);
+                wallet.setSaldoEuros(wallet.getSaldoEuros() + cantidadAVenderEnEuros);
+
+                System.out.printf("¡Venta realizada! -- %.6f %s por %.2f€%n",
+                        cryptoARestar,
+                        wallet.getCryptos().get(indiceCrypto).getNombre(),
+                        cantidadAVenderEnEuros);
+            } else {
+                cantidadAVenderEnCriptomonedas = HerramientasCriptomonedas.preguntarCantidadAVenderCriptomonedas(wallet, indiceCrypto);
+                double cryptoARestar = cantidadAVenderEnCriptomonedas;
+                double euros = cantidadAVenderEnCriptomonedas *  wallet.getCryptos().get(indiceCrypto).getPrecio();
+
+                // TRANSACCIÓN:
+                wallet.getCryptos().get(indiceCrypto).setCantidad(wallet.getCryptos().get(indiceCrypto).getCantidad() - cryptoARestar);
+                wallet.setSaldoEuros(wallet.getSaldoEuros() + euros);
+
+                System.out.printf("¡Venta realizada! -- %.6f %s por %.2f€%n",
+                        cryptoARestar,
+                        wallet.getCryptos().get(indiceCrypto).getNombre(),
+                        euros);
+            }
+
+
+        }
+    }
 }
