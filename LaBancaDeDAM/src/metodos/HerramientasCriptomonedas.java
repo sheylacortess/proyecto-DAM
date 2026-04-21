@@ -4,6 +4,9 @@ import clases.Crypto;
 import clases.Wallet;
 import excepciones.VenderCryptoExcepciones;
 
+import java.util.InputMismatchException;
+import java.util.Scanner;
+
 public class HerramientasCriptomonedas {
 
     public static void mostrarCriptomonedasVender(Wallet wallet) {
@@ -45,6 +48,39 @@ public class HerramientasCriptomonedas {
             return true;
         } else  {
             return false;
+        }
+    }
+
+    /**
+     * Metodo que pregunta la cantidad de euros que desea vender el usuario
+     * en el metodo vender(). Valida que la cantidad sea válida y la devuelve
+     *
+     * @param wallet
+     * @param indiceCrypto
+     * @return cantidad en Euros válida a vender
+     */
+    public static double preguntarCantidadAVenderEuros(Wallet wallet, int indiceCrypto) {
+        double cantidad;
+        double maxEuros = wallet.getCryptos().get(indiceCrypto).getCantidad() * wallet.getCryptos().get(indiceCrypto).getPrecio(); // Guardar el calculo en una variable para que sea más comodo
+
+        while (true) {
+            try {
+                cantidad = Herramientas.leerDouble("Introduce la cantidad en € que desea vender: ");
+
+                if (cantidad <= 0) {
+                    throw new VenderCryptoExcepciones.CantidadEurosNoValida("La cantidad a vender debe de ser mayor que 0");
+                }
+
+                if (cantidad > maxEuros) {
+                    throw new VenderCryptoExcepciones.CantidadEurosNoValida("Cantidad insuficiente");
+                }
+
+                return cantidad;
+            } catch (InputMismatchException e) {
+                System.out.println("Introduce una cantidad válida.");
+            } catch (VenderCryptoExcepciones.CantidadEurosNoValida e) {
+                System.out.println(e.getMessage());
+            }
         }
     }
 
