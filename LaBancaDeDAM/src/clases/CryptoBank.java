@@ -55,7 +55,7 @@ public class CryptoBank {
                 if (eleccion.equals("0")) {
                     continuar = false;
                 }
-                if (!eleccion.equals("BTC") && !eleccion.equals("ETH") && !eleccion.equals("SOL")) {
+                if (!eleccion.equalsIgnoreCase("BTC") && !eleccion.equalsIgnoreCase("ETH") && !eleccion.equalsIgnoreCase("SOL")) {
                     throw new EleccionCompraNoValida("Por favor, seleccione una opción válida (BTC, ETH, SOL)");
                 }
                 double cantidadEurosCompra = Herramientas.leerDouble("Introduce la cantidad en €: ");
