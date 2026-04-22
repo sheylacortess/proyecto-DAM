@@ -10,34 +10,30 @@ import java.util.Scanner;
 
 public class Herramientas {
 
+    // Declaración de un Scanner para usarlo de forma centralizada
+    private static Scanner sc = new Scanner(System.in);
+
     /**
-     * Almacena el valor de la opción (tipo String) seleccionada por el usuario,
-     * empleando un mensaje para pedir al usuario la introducción de datos.
+     * Metodos de lectura de variables
      *
-     * @param mensaje Mensaje que se muestra al usuario para pedir la introducción
-     *                de la opción que desea ejecutar.
-     * @return opción seleccionada por el usuario.
+     * @param mensaje
+     * @return sc.next*()
      */
     public static String leerOpcion(String mensaje) {
-        Scanner sc = new Scanner(System.in);
         System.out.print(mensaje);
         return sc.nextLine();
     }
 
     public static double leerDouble(String mensaje) {
-        Scanner sc = new Scanner(System.in);
         System.out.print(mensaje);
         return sc.nextDouble();
     }
 
     public static int leerInt(String mensaje) {
-        Scanner sc = new Scanner(System.in);
         System.out.print(mensaje);
         return sc.nextInt();
     }
 
-    // Declaración de un Scanner para usarlo de forma centralizada
-    private static Scanner sc = new Scanner(System.in);
 
     // Usuario y cuenta accesibles desde toda la clase Herramientas
     private static Usuario usuarioActual;
