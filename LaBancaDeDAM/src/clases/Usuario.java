@@ -35,7 +35,6 @@ public class Usuario {
     public String getDni() {
         return dni;
     }
-
     /**
      * @return email del usuario
      */

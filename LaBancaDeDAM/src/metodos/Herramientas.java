@@ -205,4 +205,20 @@ public class Herramientas {
             }
         } while (continuar);
     }
+
+
+//    public static void menuInicial() {
+//        do {
+//            try {
+//                System.out.println("¡Hola! Bienvenido/a a la Banca de DAM.");
+//                System.out.println("1. Registrarse.");
+//                System.out.println("2. Iniciar sesión.");
+//                System.out.println("0. Salir.");
+//                int opcion = leerInt("Seleccione una acción: ");
+//                if (opcion > 2 && opcion < 0) {
+//                    throw new
+//                }
+//            }
+//        }
+//    }
 }
