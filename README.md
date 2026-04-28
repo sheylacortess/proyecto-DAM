@@ -11,5 +11,6 @@
 - HashMap (gestionar varios usuarios/cuentas en memoria)
 - Trabajar con ficheros (sistema de login)
 - Excepciones programadas
+- Genérico
 
 Última actualización README 22.04.26
