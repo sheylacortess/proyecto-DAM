@@ -12,5 +12,6 @@
 - Trabajar con ficheros (sistema de login)
 - Excepciones programadas
 - Genérico
+- Ficheros que almacenen Objetos (serializarlos)
 
 Última actualización README 22.04.26
