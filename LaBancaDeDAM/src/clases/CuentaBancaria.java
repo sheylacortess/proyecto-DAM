@@ -73,14 +73,14 @@ public class CuentaBancaria extends ProductoBancario implements IOperable, IMovi
      * @param cantidad
      * @return true si exitosa, false si saldo insuficiente
      */
-    public static boolean transferir(CuentaBancaria origen, CuentaBancaria destino, double cantidad) {
-        if (cantidad > 0 && origen.retirar(cantidad) && destino.depositar(cantidad)) {
-            System.out.printf("Dinero transferido %.2f€ → %d%n", cantidad, destino.id);
-            return true;
-        }
-        System.out.println("Transferencia fallida");
-        return false;
-    }
+//    public static boolean transferir(CuentaBancaria origen, CuentaBancaria destino, double cantidad) {
+//        if (cantidad > 0 && origen.retirar(cantidad) && destino.depositar(cantidad)) {
+//            System.out.printf("Dinero transferido %.2f€ → %d%n", cantidad, destino.id);
+//            return true;
+//        }
+//        System.out.println("Transferencia fallida");
+//        return false;
+//    }
 
 
     /**

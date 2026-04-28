@@ -3,6 +3,7 @@ package metodos;
 import clases.CryptoBank;
 import clases.CuentaBancaria;
 import clases.Usuario;
+import excepciones.MenuInicialExcepciones;
 
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -206,19 +207,56 @@ public class Herramientas {
         } while (continuar);
     }
 
+    /**
+     * NUEVOS METODOS
+     *
+     * Metodos que he empezado a crear para hacer codigo más limpio
+     * y para implementar el login al Banco
+     */
 
-//    public static void menuInicial() {
-//        do {
-//            try {
-//                System.out.println("¡Hola! Bienvenido/a a la Banca de DAM.");
-//                System.out.println("1. Registrarse.");
-//                System.out.println("2. Iniciar sesión.");
-//                System.out.println("0. Salir.");
-//                int opcion = leerInt("Seleccione una acción: ");
-//                if (opcion > 2 && opcion < 0) {
-//                    throw new
-//                }
-//            }
-//        }
-//    }
+    public static void menuInicial() {
+        boolean continuar = true;
+        System.out.println("¡Hola! Bienvenido/a a la Banca de DAM.");
+        do {
+            try {
+                System.out.println("1. Registrarse.");
+                System.out.println("2. Iniciar sesión.");
+                System.out.println("0. Salir.");
+                String opcion = leerOpcion("Seleccione una acción: ");
+                MenuInicialExcepciones.ValorIntroducidoNoValido.OpcionMenuInicial(opcion);
+                switch (opcion) {
+                    case "1" -> {
+                        boolean seguir = true;
+                        do {
+                            String nombre = leerOpcion("Introduce tu nombre: ");
+                            String password = leerOpcion("Introduce una contraseña: ");
+                            String email = leerOpcion("Introduce un email: ");
+                            String dni =  leerOpcion("Introduce tu dni: ");
+                            seguir = false;
+                        } while (seguir);
+                    }
+                    case "2" -> {
+
+                    }
+                    case "0" -> {
+                        System.out.println("Saliendo...");
+                        continuar = false;
+                    }
+                }
+            } catch (IllegalArgumentException e) {
+                System.out.println("Valor válido, por favor.");
+            } catch (MenuInicialExcepciones.ValorIntroducidoNoValido e) {
+                System.out.println(e.getMessage());
+                System.out.println();
+            }
+
+        } while (continuar);
+    }
+
+    public static boolean validarPassword(String password) {
+        return password.length() >= 4;
+    }
+    public static void main(String[] args) {
+        menuInicial();
+    }
 }
