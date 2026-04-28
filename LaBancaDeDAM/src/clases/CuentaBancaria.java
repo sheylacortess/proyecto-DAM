@@ -27,9 +27,7 @@ public class CuentaBancaria extends ProductoBancario implements IOperable, IMovi
      */
     public CuentaBancaria(Usuario titular) {
         super(titular);
-        Random random = new Random();
-        this.id = 1000 + random.nextInt(9000);
-        this.saldo = 3000 + Math.round(random.nextDouble() * 7000 * 100) / 100;
+        this.saldo = 1000;
         actualizarMovimiento(String.format("Cuenta creada con saldo inicial: %.2f€", saldo));
     }
 
