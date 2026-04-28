@@ -14,4 +14,4 @@
 - Genérico
 - Ficheros que almacenen Objetos (serializarlos)
 
-Última actualización README 22.04.26
+Última actualización README 28.04.26
