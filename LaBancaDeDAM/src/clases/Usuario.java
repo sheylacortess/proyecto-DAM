@@ -15,10 +15,11 @@ public class Usuario {
      * @param dni
      * @param email
      */
-    public Usuario(String nombre, String dni, String email) {
+    public Usuario(String nombre, String dni, String email, String password) {
         this.nombre = nombre;
         this.dni = dni;
         this.email = email;
+        this.password = password;
     }
 
     // GETTERS - NO SETTERS

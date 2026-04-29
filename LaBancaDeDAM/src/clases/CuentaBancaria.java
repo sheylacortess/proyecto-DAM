@@ -17,7 +17,7 @@ public class CuentaBancaria extends ProductoBancario implements IOperable, IMovi
      * Crea una cuenta con un usuario genérico por defecto
      */
     public CuentaBancaria() {
-        this(new Usuario("Usuario Predeterminado", "12345678A", "usuario@banca.es"));
+        this(new Usuario("Usuario Predeterminado", "12345678A", "usuario@banca.es", "1234"));
     }
 
     /**

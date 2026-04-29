@@ -2,6 +2,7 @@ package metodos;
 
 import clases.CryptoBank;
 import clases.CuentaBancaria;
+import clases.Login;
 import clases.Usuario;
 import excepciones.MenuInicialExcepciones;
 
@@ -36,19 +37,11 @@ public class Herramientas {
     }
 
 
-    // Usuario y cuenta accesibles desde toda la clase Herramientas
-    private static Usuario usuarioActual;
-    private static CuentaBancaria cuentaPrincipal;
-
-    // Getter para poder trabajar con la cuenta desde otras clases
-    public static CuentaBancaria getCuentaPrincipal() {
-        return cuentaPrincipal;
-    }
-
     public static void crearUsuario() {
         String dni = null;
         String email = null;
         String nombre = null;
+        String password = null;
         // Validación nombre
         while (nombre == null) {
             try {
@@ -92,9 +85,20 @@ public class Herramientas {
             }
         }
 
-        usuarioActual = new Usuario(nombre, dni, email);
-        cuentaPrincipal = new CuentaBancaria(usuarioActual);
-        System.out.println("Usuario creado: " + usuarioActual);
+        while (password == null) {
+            try {
+                password = Herramientas.leerOpcion("Introduzca una contraseña: ");
+                if (!Herramientas.validarPassword(password)) {
+                    throw new IllegalArgumentException("La contraseña debe de ser de 4 carácteres o más. ");
+                }
+            } catch (IllegalArgumentException e) {
+                System.out.println(e.getMessage());
+                password = null;
+            }
+        }
+
+//        Login.registrar(nombre, dni, email, password);
+//        CuentaBancaria cuenta = new CuentaBancaria();
     }
 
     // Validador DNI
