@@ -209,4 +209,37 @@ public class Herramientas {
             }
         } while (continuar);
     }
+
+
+
+
+
+
+    public static void main(String[] args) {
+        boolean continuar = true;
+        do {
+            try {
+                System.out.println("Bienvenido.");
+                System.out.println("1. Nuevo usuario.");
+                System.out.println("0. Salir.");
+                int opcion = Integer.parseInt(sc.nextLine());
+                if (opcion > 1 && opcion < 0) {
+                    throw new IllegalArgumentException("error");
+                }
+
+                switch (opcion) {
+                    case 1 -> {
+                        Usuario.registrarUsuario();
+                        iniciar();
+                    }
+                    case 0 -> {
+                        System.out.println("Adios.");
+                        continuar = false;
+                    }
+                }
+            } catch (IllegalArgumentException e) {
+                System.out.println("Error.");
+            }
+        } while (continuar);
+    }
 }
