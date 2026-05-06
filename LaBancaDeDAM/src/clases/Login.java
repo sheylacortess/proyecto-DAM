@@ -41,18 +41,33 @@ public class Login {
     }
 
     public static boolean login(String usuario, String password) {
-        String[] datos;
         try (BufferedReader br = new BufferedReader(new FileReader("LaBancaDeDAM/src/ficheros/usuarios.txt"))) {
             String linea;
             while ((linea = br.readLine()) != null) {
-                datos = linea.split(";");
-                if (usuario.equalsIgnoreCase(datos[0]) && password.equalsIgnoreCase(datos[1])) {
+                String[] datos = linea.split(";");
+                if (usuario.equalsIgnoreCase(datos[0]) && password.equals(datos[1])) {
                     return true;
                 }
             }
         } catch (IOException e) {
-            System.out.println("Error" + e.getMessage());
+            System.out.println("Error: " + e.getMessage());
         }
         return false;
+    }
+
+    // Devuelve {nombre, password, dni, email} del usuario, o null si no existe
+    public static String[] obtenerDatosUsuario(String usuario) {
+        try (BufferedReader br = new BufferedReader(new FileReader("LaBancaDeDAM/src/ficheros/usuarios.txt"))) {
+            String linea;
+            while ((linea = br.readLine()) != null) {
+                String[] datos = linea.split(";");
+                if (usuario.equalsIgnoreCase(datos[0])) {
+                    return datos;
+                }
+            }
+        } catch (IOException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+        return null;
     }
 }

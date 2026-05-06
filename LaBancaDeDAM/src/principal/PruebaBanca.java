@@ -7,15 +7,8 @@ import metodos.Herramientas;
  *
  * @author Sheyla & Dani
  */
-
 public class PruebaBanca {
-    public static void main(String[] args) throws InterruptedException {
-        String opcion;
-
-        // Crear usuario
-        Herramientas.crearUsuario();
-
-        // Mostrar menú
-        Herramientas.iniciar();
+    public static void main(String[] args) {
+        Herramientas.iniciarSesion();
     }
 }

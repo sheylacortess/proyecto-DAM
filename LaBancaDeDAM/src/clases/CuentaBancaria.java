@@ -6,9 +6,7 @@ import interfaces.IOperable;
 public class CuentaBancaria extends ProductoBancario implements IOperable, IMovimientos {
 
     private double saldo;
-    private String[] movimientos = new String[10];
-    private int indiceActual = 0;
-    private int totalMovimientos = 0;
+    private Historial<String> historial = new Historial<>(10);
 
     /**
      * Constructor por defecto
@@ -85,9 +83,7 @@ public class CuentaBancaria extends ProductoBancario implements IOperable, IMovi
      * @param nuevoMov
      */
     public void actualizarMovimiento(String nuevoMov) {
-        movimientos[indiceActual] = nuevoMov;
-        indiceActual = (indiceActual + 1) % 10;  // 10 = movimientos.length
-        totalMovimientos++;
+        historial.agregar(nuevoMov);
     }
 
     // GETTERS Y SETTERS
@@ -112,7 +108,7 @@ public class CuentaBancaria extends ProductoBancario implements IOperable, IMovi
      * @return total de movimientos realizados
      */
     public int getTotalMovimientos() {
-        return totalMovimientos;
+        return historial.getTotal();
     }
 
     /**
@@ -120,17 +116,7 @@ public class CuentaBancaria extends ProductoBancario implements IOperable, IMovi
      */
     public void mostrarUltimosMovimientos() {
         System.out.println("Ultimos movimientos:");
-
-        int inicio = (indiceActual - 1 + 10) % 10;
-
-        for (int i = 0; i < 10; i++) {
-            int pos = (inicio - i + 10) % 10;
-            if (movimientos[pos] != null) {
-                System.out.println((i + 1) + ". " + movimientos[pos]);
-            } else {
-                break;  //por si no ha hecho ningun moviemiento
-            }
-        }
+        historial.mostrar();
     }
 
     /**

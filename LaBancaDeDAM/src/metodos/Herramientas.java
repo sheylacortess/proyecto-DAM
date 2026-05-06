@@ -2,8 +2,10 @@ package metodos;
 
 import clases.CryptoBank;
 import clases.CuentaBancaria;
+import clases.Login;
 import clases.Usuario;
 
+import java.util.HashMap;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -18,45 +20,82 @@ public class Herramientas {
      *                de la opción que desea ejecutar.
      * @return opción seleccionada por el usuario.
      */
+    // Scanner centralizado para toda la clase
+    private static final Scanner sc = new Scanner(System.in);
+
     public static String leerOpcion(String mensaje) {
-        Scanner sc = new Scanner(System.in);
         System.out.print(mensaje);
         return sc.nextLine();
     }
 
     public static double leerDouble(String mensaje) {
-        Scanner sc = new Scanner(System.in);
         System.out.print(mensaje);
-        return sc.nextDouble();
+        double valor = sc.nextDouble();
+        sc.nextLine(); // consume el salto de línea que deja nextDouble
+        return valor;
     }
 
     public static int leerInt(String mensaje) {
-        Scanner sc = new Scanner(System.in);
         System.out.print(mensaje);
-        return sc.nextInt();
+        int valor = sc.nextInt();
+        sc.nextLine(); // consume el salto de línea que deja nextInt
+        return valor;
     }
-
-    // Declaración de un Scanner para usarlo de forma centralizada
-    private static Scanner sc = new Scanner(System.in);
 
     // Usuario y cuenta accesibles desde toda la clase Herramientas
     private static Usuario usuarioActual;
     private static CuentaBancaria cuentaPrincipal;
+
+    // Mapa de usuarios registrados: DNI → Usuario
+    private static HashMap<String, Usuario> usuarios = new HashMap<>();
+
+    public static void iniciarSesion() {
+        boolean continuar = true;
+        do {
+            System.out.println("\n-- LA BANCA DE DAM --");
+            System.out.println("1. Registrarse");
+            System.out.println("2. Iniciar sesión");
+            System.out.println("0. Salir");
+            switch (leerOpcion("Elija una opción: ")) {
+                case "1" -> { crearUsuario(); iniciar(); continuar = false; }
+                case "2" -> { if (loginUsuario()) { iniciar(); continuar = false; } }
+                case "0" -> { System.out.println("Hasta luego."); continuar = false; }
+                default  -> System.out.println("Opción no válida.");
+            }
+        } while (continuar);
+    }
 
     // Getter para poder trabajar con la cuenta desde otras clases
     public static CuentaBancaria getCuentaPrincipal() {
         return cuentaPrincipal;
     }
 
+    public static void mostrarUsuariosRegistrados() {
+        if (usuarios.isEmpty()) {
+            System.out.println("No hay usuarios registrados.");
+            return;
+        }
+        for (Usuario u : usuarios.values()) {
+            System.out.println(u);
+        }
+    }
+
+    public static Usuario buscarUsuarioPorDni(String dni) {
+        return usuarios.get(dni.trim().toUpperCase());
+    }
+
     public static void crearUsuario() {
+        String nombre = null;
+        String password = null;
         String dni = null;
         String email = null;
-        String nombre = null;
+
         // Validación nombre
         while (nombre == null) {
             try {
                 nombre = Herramientas.leerOpcion("Introduzca su usuario: ");
                 if (nombre.equals("D")) {
+                    password = "d";
                     dni = "00000000U";
                     email = "d@gmail.com";
                 }
@@ -69,12 +108,28 @@ public class Herramientas {
             }
         }
 
+        // Validación contraseña
+        while (password == null) {
+            try {
+                password = Herramientas.leerOpcion("Introduzca su contraseña: ");
+                if (password.isEmpty()) {
+                    throw new IllegalArgumentException("Error. Debe ingresar una contraseña.");
+                }
+            } catch (IllegalArgumentException e) {
+                System.out.println(e.getMessage());
+                password = null;
+            }
+        }
+
         // Validación DNI
         while (dni == null) {
             try {
                 dni = Herramientas.leerOpcion("Introduzca su DNI: ");
                 if (!Herramientas.validaFormatoDNI(dni)) {
                     throw new IllegalArgumentException("Error. Debe ingresar un DNI válido.");
+                }
+                if (usuarios.containsKey(dni.trim().toUpperCase())) {
+                    throw new IllegalArgumentException("Error. Ya existe un usuario con ese DNI.");
                 }
             } catch (IllegalArgumentException e) {
                 System.out.println(e.getMessage());
@@ -96,8 +151,28 @@ public class Herramientas {
         }
 
         usuarioActual = new Usuario(nombre, dni, email);
+        usuarios.put(dni.trim().toUpperCase(), usuarioActual);
         cuentaPrincipal = new CuentaBancaria(usuarioActual);
-        System.out.println("Usuario creado: " + usuarioActual);
+        Login.registrar(nombre, password, email, dni);
+        System.out.println("Usuario registrado: " + usuarioActual);
+    }
+
+    public static boolean loginUsuario() {
+        String usuario = leerOpcion("Usuario: ");
+        String password = leerOpcion("Contraseña: ");
+        if (Login.login(usuario, password)) {
+            String[] datos = Login.obtenerDatosUsuario(usuario);
+            if (datos != null) {
+                // formato fichero: nombre;password;dni;email → datos[0..3]
+                usuarioActual = new Usuario(datos[0], datos[2], datos[3]);
+                usuarios.put(datos[2].trim().toUpperCase(), usuarioActual);
+                cuentaPrincipal = new CuentaBancaria(usuarioActual);
+                System.out.println("Sesión iniciada: " + usuarioActual);
+                return true;
+            }
+        }
+        System.out.println("Usuario o contraseña incorrectos.");
+        return false;
     }
 
     // Validador DNI
@@ -131,9 +206,7 @@ public class Herramientas {
      * @throws InterruptedException Mejora en el metodo iniciar, hemos implementado conntrol de errores con try catch
      */
     public static void iniciar() {
-        Scanner sc = new Scanner(System.in);
         boolean continuar = true;
-        String opcion = "";
         System.out.println("\nHola, bienvenido a La Banca de DAM. Que desea hacer hoy?");
         do {
             System.out.println("\n0 - Salir.");
@@ -144,7 +217,7 @@ public class Herramientas {
             System.out.println("5 - Criptomonedas.");
             System.out.println("6 - Ver historial de movimientos.");
 
-            opcion = leerOpcion("\nElija una opción: ");
+            String opcion = leerOpcion("\nElija una opción: ");
 
             switch (opcion) {
                 case "0":
@@ -155,12 +228,11 @@ public class Herramientas {
                     System.out.println("Saldo actual: " + cuentaPrincipal.getSaldo() + "€");
                     break;
                 case "2":
-                    System.out.println("Esta opción aun está pendiente de desarrollo. ");
+                    System.out.println("Esta opción aun está pendiente de desarrollo.");
                     break;
                 case "3":
                     try {
-                        System.out.print("Introduce la cantidad a retirar: ");
-                        double cantidadRetiro = sc.nextDouble();
+                        double cantidadRetiro = leerDouble("Introduce la cantidad a retirar: ");
                         if (cantidadRetiro <= 0) {
                             throw new IllegalArgumentException("La cantidad a retirar debe ser mayor a 0.");
                         }
@@ -173,14 +245,12 @@ public class Herramientas {
                         System.out.println("Error en el retiro: " + e.getMessage());
                     } catch (InputMismatchException e) {
                         System.out.println("Error: Debes introducir un número válido.");
-                        sc.nextLine(); // Limpiar buffer
+                        sc.nextLine();
                     }
                     break;
-
                 case "4":
                     try {
-                        System.out.print("Introduce la cantidad a depositar: ");
-                        double cantidadDeposito = sc.nextDouble();
+                        double cantidadDeposito = leerDouble("Introduce la cantidad a depositar: ");
                         if (cantidadDeposito <= 0) {
                             throw new IllegalArgumentException("La cantidad a depositar debe ser mayor a 0.");
                         }
@@ -193,10 +263,9 @@ public class Herramientas {
                         System.out.println("Error en el deposito: " + e.getMessage());
                     } catch (InputMismatchException e) {
                         System.out.println("Error: Debe introducir un número válido.");
-                        sc.nextLine(); // Limpiar
+                        sc.nextLine();
                     }
                     break;
-
                 case "5":
                     CryptoBank.iniciar();
                     break;
@@ -210,36 +279,4 @@ public class Herramientas {
         } while (continuar);
     }
 
-
-
-
-
-
-    public static void main(String[] args) {
-        boolean continuar = true;
-        do {
-            try {
-                System.out.println("Bienvenido.");
-                System.out.println("1. Nuevo usuario.");
-                System.out.println("0. Salir.");
-                int opcion = Integer.parseInt(sc.nextLine());
-                if (opcion > 1 && opcion < 0) {
-                    throw new IllegalArgumentException("error");
-                }
-
-                switch (opcion) {
-                    case 1 -> {
-                        Usuario.registrarUsuario();
-                        iniciar();
-                    }
-                    case 0 -> {
-                        System.out.println("Adios.");
-                        continuar = false;
-                    }
-                }
-            } catch (IllegalArgumentException e) {
-                System.out.println("Error.");
-            }
-        } while (continuar);
-    }
 }

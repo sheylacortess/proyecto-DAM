@@ -1,6 +1,7 @@
 package clases;
 
-import excepciones.*;
+import excepciones.BancaExcepciones;
+import excepciones.VenderCryptoExcepciones;
 import metodos.Herramientas;
 import metodos.HerramientasCriptomonedas;
 
@@ -56,14 +57,14 @@ public class CryptoBank {
                     continuar = false;
                 }
                 if (!eleccion.equalsIgnoreCase("BTC") && !eleccion.equalsIgnoreCase("ETH") && !eleccion.equalsIgnoreCase("SOL")) {
-                    throw new EleccionCompraNoValida("Por favor, seleccione una opción válida (BTC, ETH, SOL)");
+                    throw new BancaExcepciones.EleccionCompraNoValida("Por favor, seleccione una opción válida (BTC, ETH, SOL)");
                 }
                 double cantidadEurosCompra = Herramientas.leerDouble("Introduce la cantidad en €: ");
                 if (cantidadEurosCompra > wallet.getSaldoEuros()) {
-                    throw new CompraCryptoNoValida("Saldo insuficiente.");
+                    throw new BancaExcepciones.CompraCryptoNoValida("Saldo insuficiente.");
                 }
                 if (cantidadEurosCompra <= 0) {
-                    throw new CompraCryptoNoValida("La cantidad no puede ser 0.");
+                    throw new BancaExcepciones.CompraCryptoNoValida("La cantidad no puede ser 0.");
                 }
                 switch (eleccion) {
                     case "BTC" -> {
@@ -132,9 +133,9 @@ public class CryptoBank {
                 }
             } catch (InputMismatchException e) {
                 System.out.println("Introduzca un valor válido, porfavor.");
-            } catch (EleccionCompraNoValida e) {
+            } catch (BancaExcepciones.EleccionCompraNoValida e) {
                 System.out.println(e.getMessage());
-            } catch (CompraCryptoNoValida e) {
+            } catch (BancaExcepciones.CompraCryptoNoValida e) {
                 System.out.println(e.getMessage());
             }
         } while (continuar);
@@ -209,14 +210,14 @@ public class CryptoBank {
                             try {
                                 double cantidadIngresar = Herramientas.leerDouble("Introduzca la cantidad que desea ingresar a su Wallet: ");
                                 if (cantidadIngresar > cuenta.getSaldo()) {
-                                    throw new CantidadAIngresarNoValida("Saldo Insuficiente.");
+                                    throw new BancaExcepciones.CantidadAIngresarNoValida("Saldo Insuficiente.");
                                 }
                                 cuenta.retirar(cantidadIngresar); // Ya que tenemos el metodo retirar lo usamos y genera el movimiento también
                                 wallet.setSaldoEuros(wallet.getSaldoEuros() + cantidadIngresar);
                                 ingresarContinuar = false;
                             } catch (InputMismatchException e) {
                                 System.out.println("Introduzca un valor válido, porfavor.");
-                            } catch (CantidadAIngresarNoValida e) {
+                            } catch (BancaExcepciones.CantidadAIngresarNoValida e) {
                                 System.out.println(e.getMessage());
                             }
                         } while (ingresarContinuar);
@@ -227,17 +228,17 @@ public class CryptoBank {
                             try {
                                 double cantidadRetirar = Herramientas.leerDouble("Introduzca la cantidad a retirar: ");
                                 if (cantidadRetirar > wallet.getSaldoEuros()) {
-                                    throw new CantidadARetirarNoValida("La cantidad que desea retirar es mayor al saldo de su Wallet.");
+                                    throw new BancaExcepciones.CantidadARetirarNoValida("La cantidad que desea retirar es mayor al saldo de su Wallet.");
                                 }
                                 if (cantidadRetirar <= 0) {
-                                    throw new CantidadARetirarNoValida("La cantidad a retirar debe de ser mayor que 0.");
+                                    throw new BancaExcepciones.CantidadARetirarNoValida("La cantidad a retirar debe de ser mayor que 0.");
                                 }
                                 wallet.setSaldoEuros(wallet.getSaldoEuros() - cantidadRetirar);
                                 cuenta.depositar(cantidadRetirar); // Función depositar aprovechada
                                 retirarContinuar = false;
                             } catch (InputMismatchException e) {
                                 System.out.println("Introduzca un valor válido, porfavor.");
-                            } catch (CantidadARetirarNoValida e) {
+                            } catch (BancaExcepciones.CantidadARetirarNoValida e) {
                                 System.out.println(e.getMessage());
                             }
                         } while (retirarContinuar);
