@@ -5,7 +5,7 @@ import metodos.Herramientas;
 import java.io.*;
 
 public class Login {
-    public static void main(String[] args) {
+    public void iniciarLogin() {
         System.out.println("Bienvenido.");
         String usuario = Herramientas.leerOpcion("Usuario: ");
         String password = Herramientas.leerOpcion("Password: ");
