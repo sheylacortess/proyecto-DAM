@@ -1,16 +1,14 @@
 package clases;
 
-import interfaces.IMovimientos;
 import interfaces.IOperable;
 
+import java.time.LocalDate;
 import java.util.Random;
 
-public class CuentaBancaria extends ProductoBancario implements IOperable, IMovimientos {
+public class CuentaBancaria extends ProductoBancario implements IOperable {
 
     private double saldo;
-    private String[] movimientos = new String[10];
-    private int indiceActual = 0;
-    private int totalMovimientos = 0;
+    private static Historial<Movimiento> historial;
 
     /**
      * Constructor por defecto
@@ -30,7 +28,7 @@ public class CuentaBancaria extends ProductoBancario implements IOperable, IMovi
         Random random = new Random();
         this.id = 1000 + random.nextInt(9000);
         this.saldo = 3000 + Math.round(random.nextDouble() * 7000 * 100) / 100;
-        actualizarMovimiento(String.format("Cuenta creada con saldo inicial: %.2f€", saldo));
+        this.historial = new Historial<Movimiento>();
     }
 
     /**
@@ -43,7 +41,7 @@ public class CuentaBancaria extends ProductoBancario implements IOperable, IMovi
         if (cantidad > 0) {
             double nuevoSaldo = getSaldo() + cantidad;
             setSaldo(nuevoSaldo);
-            actualizarMovimiento(String.format("Depósito: +%.2f€. Saldo: %.2f€", cantidad, nuevoSaldo));
+            actualizarMovimiento(TipoMovimiento.DEPOSITO, cantidad, "Deposito efectuado");
             return true;
         }
         return false;
@@ -59,7 +57,7 @@ public class CuentaBancaria extends ProductoBancario implements IOperable, IMovi
         if (cantidad > 0 && cantidad <= getSaldo()) {
             double nuevoSaldo = getSaldo() - cantidad;
             setSaldo(nuevoSaldo);
-            actualizarMovimiento(String.format("Retiro: -%.2f€. Saldo: %.2f€", cantidad, nuevoSaldo));
+            actualizarMovimiento(TipoMovimiento.RETIRO, cantidad, "Retiro efectuado");
             return true;
         }
         return false;
@@ -82,16 +80,13 @@ public class CuentaBancaria extends ProductoBancario implements IOperable, IMovi
         return false;
     }
 
+    public static void actualizarMovimiento(TipoMovimiento tipoMov, double cantidad, String descripcion) {
+        Movimiento mov = new Movimiento(tipoMov, cantidad, descripcion, LocalDate.now());
+        historial.agregar(mov);
+    }
 
-    /**
-     * Registra nuevo movimiento que tiene como maximo 10
-     *
-     * @param nuevoMov
-     */
-    public void actualizarMovimiento(String nuevoMov) {
-        movimientos[indiceActual] = nuevoMov;
-        indiceActual = (indiceActual + 1) % 10;  // 10 = movimientos.length
-        totalMovimientos++;
+    public void mostrarUltimosMovimientos() {
+        historial.mostrarTodos();
     }
 
     // GETTERS Y SETTERS
@@ -110,31 +105,6 @@ public class CuentaBancaria extends ProductoBancario implements IOperable, IMovi
      */
     public void setSaldo(double saldo) {
         this.saldo = saldo;
-    }
-
-    /**
-     * @return total de movimientos realizados
-     */
-    public int getTotalMovimientos() {
-        return totalMovimientos;
-    }
-
-    /**
-     * Muestra historial de movimientos recientes
-     */
-    public void mostrarUltimosMovimientos() {
-        System.out.println("Ultimos movimientos:");
-
-        int inicio = (indiceActual - 1 + 10) % 10;
-
-        for (int i = 0; i < 10; i++) {
-            int pos = (inicio - i + 10) % 10;
-            if (movimientos[pos] != null) {
-                System.out.println((i + 1) + ". " + movimientos[pos]);
-            } else {
-                break;  //por si no ha hecho ningun moviemiento
-            }
-        }
     }
 
     /**

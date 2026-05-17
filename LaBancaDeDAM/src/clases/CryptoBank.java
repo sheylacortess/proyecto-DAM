@@ -79,6 +79,7 @@ public class CryptoBank {
                                 // Obtener la crypto BTC (posición 0 del ArrayList), y se le suma la cantidad comprada a la que ya tenía
                                 wallet.getCryptos().get(0).setCantidad(wallet.getCryptos().get(0).getCantidad() + cantidadARecibir);
                                 System.out.println("¡Compra aceptada! - Saldo " + wallet.getCryptos().get(0).getNombre() + " = " + wallet.getCryptos().get(0).getCantidad());
+                                CuentaBancaria.actualizarMovimiento(TipoMovimiento.CRYPTO, cantidadARecibir, "Compra de BTC"); // Registrar mov en CuentaBancaria
                                 continuar = false;
                             } else if (confirmacion.equalsIgnoreCase("N")) {
                                 continuar = false;
@@ -100,6 +101,7 @@ public class CryptoBank {
                                 // Obtener la crypto ETH (posición 1 del ArrayList), y se le suma la cantidad comprada a la que ya tenía
                                 wallet.getCryptos().get(1).setCantidad(wallet.getCryptos().get(1).getCantidad() + cantidadARecibir);
                                 System.out.println("¡Compra aceptada! - Saldo " + wallet.getCryptos().get(1).getNombre() + " = " + wallet.getCryptos().get(1).getCantidad());
+                                CuentaBancaria.actualizarMovimiento(TipoMovimiento.CRYPTO, cantidadARecibir, "Compra de ETH"); // Registrar mov
                                 continuar = false;
                             } else if (confirmacion.equalsIgnoreCase("N")) {
                                 continuar = false;
@@ -121,6 +123,7 @@ public class CryptoBank {
                                 // Obtener la crypto SOL (posición 2 del ArrayList), y se le suma la cantidad comprada a la que ya tenía
                                 wallet.getCryptos().get(2).setCantidad(wallet.getCryptos().get(2).getCantidad() + cantidadARecibir);
                                 System.out.println("¡Compra aceptada! - Saldo " + wallet.getCryptos().get(2).getNombre() + " = " + wallet.getCryptos().get(2).getCantidad());
+                                CuentaBancaria.actualizarMovimiento(TipoMovimiento.CRYPTO, cantidadARecibir, "Compra de SOL"); // Registrar mov
                                 continuar = false;
                             } else if (confirmacion.equalsIgnoreCase("N")) {
                                 continuar = false;
@@ -211,7 +214,8 @@ public class CryptoBank {
                                 if (cantidadIngresar > cuenta.getSaldo()) {
                                     throw new CantidadAIngresarNoValida("Saldo Insuficiente.");
                                 }
-                                cuenta.retirar(cantidadIngresar); // Ya que tenemos el metodo retirar lo usamos y genera el movimiento también
+                                cuenta.setSaldo(cuenta.getSaldo() - cantidadIngresar);
+                                CuentaBancaria.actualizarMovimiento(TipoMovimiento.DEPOSITO, cantidadIngresar, "Deposito en Wallet");
                                 wallet.setSaldoEuros(wallet.getSaldoEuros() + cantidadIngresar);
                                 ingresarContinuar = false;
                             } catch (InputMismatchException e) {
