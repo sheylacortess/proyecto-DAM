@@ -1,7 +1,9 @@
 package metodos;
 
 import clases.Crypto;
+import clases.CuentaBancaria;
 import clases.Wallet;
+import enums.TipoMovimiento;
 import excepciones.VenderCryptoExcepciones;
 
 import java.util.InputMismatchException;
@@ -119,7 +121,7 @@ public class HerramientasCriptomonedas {
      */
     public static void venderCrypto(Wallet wallet, int indiceCrypto, String nombreCrypto) throws VenderCryptoExcepciones.CriptomonedaSeleccionadaException {
         if (wallet.getCryptos().get(indiceCrypto).getCantidad() <= 0) {
-            throw new VenderCryptoExcepciones.CriptomonedaSeleccionadaException("No dispone de BTC para vender.");
+            throw new VenderCryptoExcepciones.CriptomonedaSeleccionadaException("No dispone de" + nombreCrypto + "para vender.");
         } else {
             double cantidadAVenderEnEuros;
             double cantidadAVenderEnCriptomonedas;
@@ -130,6 +132,7 @@ public class HerramientasCriptomonedas {
                 // TRANSACCIÓN:
                 wallet.getCryptos().get(indiceCrypto).setCantidad(wallet.getCryptos().get(indiceCrypto).getCantidad() - cryptoARestar);
                 wallet.setSaldoEuros(wallet.getSaldoEuros() + cantidadAVenderEnEuros);
+                CuentaBancaria.actualizarMovimiento(TipoMovimiento.CRYPTO, cantidadAVenderEnEuros, "Venta de " + nombreCrypto);
 
                 System.out.printf("¡Venta realizada! -- %.6f %s por %.2f€%n",
                         cryptoARestar,
@@ -143,6 +146,7 @@ public class HerramientasCriptomonedas {
                 // TRANSACCIÓN:
                 wallet.getCryptos().get(indiceCrypto).setCantidad(wallet.getCryptos().get(indiceCrypto).getCantidad() - cryptoARestar);
                 wallet.setSaldoEuros(wallet.getSaldoEuros() + euros);
+                CuentaBancaria.actualizarMovimiento(TipoMovimiento.CRYPTO, euros, "Venta de " + nombreCrypto);
 
                 System.out.printf("¡Venta realizada! -- %.6f %s por %.2f€%n",
                         cryptoARestar,
