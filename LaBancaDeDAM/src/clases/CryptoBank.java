@@ -1,5 +1,6 @@
 package clases;
 
+import enums.TipoMovimiento;
 import excepciones.*;
 import metodos.Herramientas;
 import metodos.HerramientasCriptomonedas;

@@ -1,5 +1,7 @@
 package clases;
 
+import enums.TipoMovimiento;
+
 import java.time.LocalDate;
 
 
