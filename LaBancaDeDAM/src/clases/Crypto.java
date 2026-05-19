@@ -34,4 +34,9 @@ public class Crypto {
     public void setPrecio(double precio) {
         this.precio = precio;
     }
+
+    @Override
+    public String toString() {
+        return nombre +  " ---------- " + precio + "€";
+    }
 }
