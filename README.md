@@ -1,17 +1,11 @@
-## PROYECTO PRIMERO DE DAM SIMULACIÓN DE UNA BANCA 
+## PROYECTO 1º DAM SIMULACIÓN DE UN BANCO
 
-08/04/26
-### Cosas que ya están hechas (actualizado)
-- ArrayList --> implementado en el sistema de criptomonedas
-- Composición de objetos --> implementado en el sistema de criptomonedas
-- Excepcion/es propias --> se han creado excepciones programadas pero de una manera un poco gitanada, hay que hacerlas mejor
+### Cosas que faltan por añadir:
+- HashMap
+- Ficheros (serialización)
 
-21/04/26
-### Cosas que faltan
-- HashMap (gestionar varios usuarios/cuentas en memoria)
-- Trabajar con ficheros (sistema de login)
-- Excepciones programadas
-- Genérico
-- Ficheros que almacenen Objetos (serializarlos)
+### Más adelante se añadirá:
+- Implementación de Bases de Datos
+- Swing
 
-Última actualización README 28.04.26
+
