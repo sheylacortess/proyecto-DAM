@@ -9,7 +9,7 @@ import java.util.Random;
 public class CuentaBancaria extends ProductoBancario implements IOperable {
 
     private double saldo;
-    private static Historial<Movimiento> historial;
+    private static Historial<Movimiento> historial; // Parametrización del Genérico Historial<T>
 
     /**
      * Constructor por defecto
