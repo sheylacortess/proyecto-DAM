@@ -3,10 +3,11 @@ package clases;
 import enums.TipoMovimiento;
 import interfaces.IOperable;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Random;
 
-public class CuentaBancaria extends ProductoBancario implements IOperable {
+public class CuentaBancaria extends ProductoBancario implements IOperable, Serializable {
 
     private double saldo;
     private static Historial<Movimiento> historial;

@@ -2,9 +2,10 @@ package clases;
 
 import interfaces.IOperable;
 
+import java.io.Serializable;
 import java.util.Random;
 
-public abstract class ProductoBancario implements IOperable {
+public abstract class ProductoBancario implements IOperable, Serializable {
     protected int id;
     protected Usuario titular;
 

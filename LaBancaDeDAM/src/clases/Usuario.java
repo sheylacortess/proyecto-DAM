@@ -1,6 +1,8 @@
 package clases;
 
-public class Usuario {
+import java.io.Serializable;
+
+public class Usuario implements Serializable {
 
     //atributos
     private String nombre;

@@ -2,10 +2,11 @@ package clases;
 
 import enums.TipoMovimiento;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
 
-public class Movimiento {
+public class Movimiento implements Serializable {
 
     private TipoMovimiento tipo;
     private double cantidad;

@@ -1,5 +1,7 @@
 package principal;
 
+import clases.CuentaBancaria;
+import metodos.GestorFicheros;
 import metodos.Herramientas;
 
 /**
@@ -10,12 +12,22 @@ import metodos.Herramientas;
 
 public class PruebaBanca {
     public static void main(String[] args) throws InterruptedException {
-        String opcion;
+        // Intentar cargar cuenta existente
+//        CuentaBancaria cuenta = GestorFicheros.cargarCuenta();
+//
+//        if (cuenta == null) {
+//            // No existe el fichero, crear nuevo usuario
+//            Herramientas.crearUsuario();
+//        } else {
+//            // Cuenta cargada correctamente
+//            System.out.println("Bienvenido de nuevo.");
+//        }
 
-        // Crear usuario
         Herramientas.crearUsuario();
-
         // Mostrar menú
         Herramientas.iniciar();
+
+//        // Al salir, guardar
+//        GestorFicheros.guardarCuenta(Herramientas.getCuentaPrincipal());
     }
 }

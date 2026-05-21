@@ -1,8 +1,9 @@
 package clases;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Historial<T> {
+public class Historial<T> implements Serializable {
 
     private ArrayList<T> elementos;
 
