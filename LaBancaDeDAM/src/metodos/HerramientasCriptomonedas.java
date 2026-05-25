@@ -124,7 +124,7 @@ public class HerramientasCriptomonedas {
      * @param crypto
      * @throws VenderCryptoExcepciones.CriptomonedaSeleccionadaException
      */
-    public static void venderCrypto(Wallet wallet, String crypto) throws VenderCryptoExcepciones.CriptomonedaSeleccionadaException {
+    public static void venderCrypto(Wallet wallet, String crypto, CuentaBancaria cuenta) throws VenderCryptoExcepciones.CriptomonedaSeleccionadaException {
         if (wallet.getCryptos().get(crypto).getCantidad() <= 0) {
             throw new VenderCryptoExcepciones.CriptomonedaSeleccionadaException("No dispone de" + wallet.getCryptos().get(crypto).getNombre() + "para vender.");
         } else {
@@ -137,7 +137,7 @@ public class HerramientasCriptomonedas {
                 // TRANSACCIÓN:
                 wallet.getCryptos().get(crypto).setCantidad(wallet.getCryptos().get(crypto).getCantidad() - cryptoARestar);
                 wallet.setSaldoEuros(wallet.getSaldoEuros() + cantidadAVenderEnEuros);
-                CuentaBancaria.actualizarMovimiento(TipoMovimiento.CRYPTO, cantidadAVenderEnEuros, "Venta de " + wallet.getCryptos().get(crypto).getNombre());
+                cuenta.actualizarMovimiento(TipoMovimiento.CRYPTO, cantidadAVenderEnEuros, "Venta de " + wallet.getCryptos().get(crypto).getNombre());
 
                 System.out.printf("¡Venta realizada! -- %.6f %s por %.2f€%n",
                         cryptoARestar,
@@ -151,7 +151,7 @@ public class HerramientasCriptomonedas {
                 // TRANSACCIÓN:
                 wallet.getCryptos().get(crypto).setCantidad(wallet.getCryptos().get(crypto).getCantidad() - cryptoARestar);
                 wallet.setSaldoEuros(wallet.getSaldoEuros() + euros);
-                CuentaBancaria.actualizarMovimiento(TipoMovimiento.CRYPTO, euros, "Venta de " + wallet.getCryptos().get(crypto).getNombre());
+                cuenta.actualizarMovimiento(TipoMovimiento.CRYPTO, euros, "Venta de " + wallet.getCryptos().get(crypto).getNombre());
 
                 System.out.printf("¡Venta realizada! -- %.6f %s por %.2f€%n",
                         cryptoARestar,

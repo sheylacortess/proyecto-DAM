@@ -48,6 +48,15 @@ public class Herramientas {
         return cuentaPrincipal;
     }
 
+    /**
+     * Setter de la cuenta principal para cuando se cargue la cuenta deserializada en PruebaBanca.java
+     *
+     * @param cuenta
+     */
+    public static void setCuentaPrincipal(CuentaBancaria cuenta) {
+        cuentaPrincipal = cuenta;
+    }
+
     public static void crearUsuario() {
         String dni = null;
         String email = null;
@@ -148,7 +157,8 @@ public class Herramientas {
 
             switch (opcion) {
                 case "0":
-                    System.out.println("Gracias! Saliendo...");
+                    GestorFicheros.guardarCuenta(cuentaPrincipal); // Guardar el estado de la cuenta
+                    System.out.println("Estado de la cuenta guardado. Saliendo...");
                     continuar = false;
                     break;
                 case "1":

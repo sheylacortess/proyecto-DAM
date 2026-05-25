@@ -10,7 +10,7 @@ import java.util.Random;
 public class CuentaBancaria extends ProductoBancario implements IOperable, Serializable {
 
     private double saldo;
-    private static Historial<Movimiento> historial;
+    private Historial<Movimiento> historial;
 
     /**
      * Constructor por defecto
@@ -80,7 +80,7 @@ public class CuentaBancaria extends ProductoBancario implements IOperable, Seria
         return false;
     }
 
-    public static void actualizarMovimiento(TipoMovimiento tipoMov, double cantidad, String descripcion) {
+    public void actualizarMovimiento(TipoMovimiento tipoMov, double cantidad, String descripcion) {
         Movimiento mov = new Movimiento(tipoMov, cantidad, descripcion, LocalDate.now());
         historial.agregar(mov);
     }

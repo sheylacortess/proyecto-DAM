@@ -12,22 +12,17 @@ import metodos.Herramientas;
 
 public class PruebaBanca {
     public static void main(String[] args) throws InterruptedException {
-        // Intentar cargar cuenta existente
-//        CuentaBancaria cuenta = GestorFicheros.cargarCuenta();
-//
-//        if (cuenta == null) {
-//            // No existe el fichero, crear nuevo usuario
-//            Herramientas.crearUsuario();
-//        } else {
-//            // Cuenta cargada correctamente
-//            System.out.println("Bienvenido de nuevo.");
-//        }
 
-        Herramientas.crearUsuario();
+        CuentaBancaria cuenta = GestorFicheros.cargarCuenta(); // Cargar cuenta
+
+        if (cuenta == null) {
+            Herramientas.crearUsuario(); // Si no ha encontrado una cuenta, se creara una nueva
+        } else {
+            Herramientas.setCuentaPrincipal(cuenta); // Si ha encontrado cuenta, te muestra la bienvenida
+            System.out.println("Bienvenido de nuevo");
+        }
+
         // Mostrar menú
-        Herramientas.iniciar();
-
-//        // Al salir, guardar
-//        GestorFicheros.guardarCuenta(Herramientas.getCuentaPrincipal());
+        Herramientas.iniciar(); // Para ambos casos iniciar
     }
 }

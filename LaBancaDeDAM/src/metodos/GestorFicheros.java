@@ -17,9 +17,9 @@ public class GestorFicheros implements Serializable {
 
     public static CuentaBancaria cargarCuenta() {
         // Deserialización
-        CuentaBancaria cuenta = null;
+        CuentaBancaria cuenta = null; // Inicializar la cuenta a null por si falla la lectura tener algo que devolver y decidir si se crea un nuevo usuario
         try (ObjectInputStream in = new ObjectInputStream(new FileInputStream("data.dat"))) {
-            cuenta = (CuentaBancaria) in.readObject();
+            cuenta = (CuentaBancaria) in.readObject(); // cast porque readObject() devuelve Object
         } catch (IOException | ClassNotFoundException e) {
             System.out.println("Error: " + e.getMessage());
         }
