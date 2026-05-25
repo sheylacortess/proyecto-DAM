@@ -36,3 +36,6 @@ Thumbs.db
 
 # Logs
 *.log
+
+# Ficheros de serialización
+*.dat
