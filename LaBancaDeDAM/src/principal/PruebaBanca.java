@@ -10,12 +10,6 @@ import metodos.Herramientas;
 
 public class PruebaBanca {
     public static void main(String[] args) throws InterruptedException {
-        String opcion;
-
-        // Crear usuario
-        Herramientas.crearUsuario();
-
-        // Mostrar menú
-        Herramientas.iniciar();
+        Herramientas.menuInicio();
     }
 }
