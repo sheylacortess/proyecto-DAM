@@ -5,6 +5,9 @@ import clases.CuentaBancaria;
 import clases.Usuario;
 
 import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -127,21 +130,48 @@ public class Herramientas {
     }
 
     public static double pedirCantidadGUI(String titulo) {
-        String input = JOptionPane.showInputDialog(null, "Introduce la cantidad (€):", titulo, JOptionPane.PLAIN_MESSAGE);
 
-        if (input == null) return -1; // usuario canceló
+        // Creamos la ventana emergente
+        JDialog dialog = new JDialog();
+        dialog.setSize(300, 150); // tamaño de la ventana en píxeles
+        dialog.setModal(true); // pausa el programa hasta que el usuario cierre la ventana
+        dialog.setLayout(new FlowLayout()); // coloca los componentes en fila
 
-        try {
-            double cantidad = Double.parseDouble(input.trim());
-            if (cantidad <= 0) {
-                JOptionPane.showMessageDialog(null, "La cantidad debe ser mayor que 0.");
-                return -1;
+        // Campo donde el usuario escribe la cantidad
+        JTextField campo = new JTextField(15);
+        // Botón para confirmar
+        JButton boton = new JButton("Aceptar");
+        // Usamos array porque dentro del evento no se puede modificar una variable normal
+        double[] resultado = {-1}; // -1 significa que el usuario no ha introducido nada válido
+
+        // Evento que se ejecuta cuando el usuario pulsa Aceptar
+        boton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String input = campo.getText().trim(); // leemos lo que escribió el usuario
+                try {
+                    double cantidad = Double.parseDouble(input); // convertimos el texto a número
+                    if (cantidad <= 0) {
+                        JOptionPane.showMessageDialog(null, "La cantidad debe ser mayor que 0.");
+                    } else {
+                        resultado[0] = cantidad; // guardamos el resultado
+                        dialog.dispose(); // cerramos la ventana
+                    }
+                } catch (NumberFormatException ex) {
+                    // si el texto no es un número mostramos un aviso
+                    JOptionPane.showMessageDialog(null, "Introduce un número válido.");
+                }
             }
-            return cantidad;
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(null, "Introduce un número válido.");
-            return -1;
-        }
+        });
+
+        // Añadimos los componentes a la ventana
+        dialog.add(new JLabel("Introduce la cantidad (€):"));
+        dialog.add(campo);
+        dialog.add(boton);
+        dialog.setVisible(true); // mostramos la ventana y pausamos aquí hasta que se cierre
+
+        // Devolvemos la cantidad introducida (-1 si no introdujo nada válido)
+        return resultado[0];
     }
 
     /**
