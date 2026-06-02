@@ -7,6 +7,9 @@ import clases.CuentaBancaria;
 import clases.Usuario;
 
 import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -215,23 +218,45 @@ public class Herramientas {
         return null;
     }
 
-    public static double pedirCantidadGUI(String titulo) {
-        String input = JOptionPane.showInputDialog(null, "Introduce la cantidad (€):", titulo, JOptionPane.PLAIN_MESSAGE);
+    private static double resultado = -1;
 
-        if (input == null) return -1; // usuario canceló
+    public static double pedirCantidadGUI() {
 
-        try {
-            double cantidad = Double.parseDouble(input.trim());
-            if (cantidad <= 0) {
-                JOptionPane.showMessageDialog(null, "La cantidad debe ser mayor que 0.");
-                return -1;
+        JDialog dialog = new JDialog();
+        dialog.setSize(300, 150);
+        dialog.setModal(true);
+        dialog.setLayout(new FlowLayout());
+
+        JTextField campo = new JTextField(15);
+        JButton boton = new JButton("Aceptar");
+        resultado = -1;
+
+        boton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String input = campo.getText().trim();
+                try {
+                    double cantidad = Double.parseDouble(input);
+                    if (cantidad <= 0) {
+                        JOptionPane.showMessageDialog(null, "La cantidad debe ser mayor que 0.");
+                    } else {
+                        resultado = cantidad;
+                        dialog.dispose();
+                    }
+                } catch (NumberFormatException ex) {
+                    JOptionPane.showMessageDialog(null, "Introduce un número válido.");
+                }
             }
-            return cantidad;
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(null, "Introduce un número válido.");
-            return -1;
-        }
+        });
+
+        dialog.add(new JLabel("Introduce la cantidad (€):"));
+        dialog.add(campo);
+        dialog.add(boton);
+        dialog.setVisible(true);
+
+        return resultado;
     }
+
 
     public static void menuInicio() {
         boolean continuar = true;
@@ -266,6 +291,7 @@ public class Herramientas {
             }
         } while (continuar);
     }
+
     /**
      * Devuelve el menú a mostrar en el programa principal.
      *
@@ -299,7 +325,7 @@ public class Herramientas {
                     System.out.println("Esta opción aun está pendiente de desarrollo. ");
                     break;
                 case "3":
-                    double cantidadRetiro = pedirCantidadGUI("Retirar dinero");
+                    double cantidadRetiro = pedirCantidadGUI();
                     if (cantidadRetiro == -1) break;
                     if (cuentaPrincipal.retirar(cantidadRetiro)) {
                         JOptionPane.showMessageDialog(null, "Retiro realizado. Saldo: " + cuentaPrincipal.getSaldo() + "€");
@@ -308,7 +334,7 @@ public class Herramientas {
                     }
                     break;
                 case "4":
-                    double cantidadDeposito = pedirCantidadGUI("Hacer un depósito");
+                    double cantidadDeposito = pedirCantidadGUI();
                     if (cantidadDeposito == -1) break; // canceló o dato inválido
                     if (cuentaPrincipal.depositar(cantidadDeposito)) {
                         JOptionPane.showMessageDialog(null, "Depósito realizado. Saldo: " + cuentaPrincipal.getSaldo() + "€");
