@@ -1,10 +1,16 @@
 package metodos;
 
+import bases.ConexionDB;
+import bases.UsuarioDAO;
 import clases.CryptoBank;
 import clases.CuentaBancaria;
 import clases.Usuario;
 
 import javax.swing.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -49,10 +55,11 @@ public class Herramientas {
         return cuentaPrincipal;
     }
 
-    public static void crearUsuario() {
+    public static boolean crearUsuario() {
         String dni = null;
         String email = null;
         String nombre = null;
+        String password = null;
         // Validación nombre
         while (nombre == null) {
             try {
@@ -96,9 +103,30 @@ public class Herramientas {
             }
         }
 
+        // Pedir password
+        while (password == null) {
+            try {
+                password = Herramientas.leerOpcion("Introduce una contraseña: ");
+                if (password.isEmpty()) {
+                    throw new IllegalArgumentException("Error: introduzca una contraseña.");
+                }
+            } catch (IllegalArgumentException e) {
+                System.out.println(e.getMessage());
+                password = null;
+            }
+        }
+
         usuarioActual = new Usuario(nombre, dni, email);
         cuentaPrincipal = new CuentaBancaria(usuarioActual);
-        System.out.println("Usuario creado: " + usuarioActual);
+
+        boolean guardado = UsuarioDAO.registrar(nombre, dni, email, password);
+        if (guardado) {
+            System.out.println("Usuario creado y guardado en la base de datos: " + usuarioActual);
+            return true;
+        } else {
+            System.out.println("Error al guardar el usuario.");
+        }
+        return false;
     }
 
     // Validador DNI
@@ -126,6 +154,67 @@ public class Herramientas {
         return true;
     }
 
+    /**
+     * Metodo para iniciar sesion con metodo login() de UsuarioDAO
+     */
+    public static boolean iniciarSesion() {
+        String dni = null;
+        String password = null;
+
+        // Validación DNI
+        while (dni == null) {
+            try {
+                dni = Herramientas.leerOpcion("Introduzca su DNI: ");
+                if (!Herramientas.validaFormatoDNI(dni)) {
+                    throw new IllegalArgumentException("Error. Debe ingresar un DNI válido.");
+                }
+            } catch (IllegalArgumentException e) {
+                System.out.println(e.getMessage());
+                dni = null;
+            }
+        }
+
+        // Pedir password
+        password = Herramientas.leerOpcion("Introduzca su contraseña: ");
+
+        // Llamar al login
+        boolean exito = UsuarioDAO.login(dni, password);
+        if (exito) {
+            System.out.println("Login correcto. Bienvenido!");
+            usuarioActual = obtenerUsuarioPorDni(dni);
+            if (usuarioActual != null) {
+                cuentaPrincipal = new CuentaBancaria(usuarioActual);
+                System.out.println("Bienvenido, " + usuarioActual.getNombre());
+                return true;
+            }
+        } else {
+            System.out.println("DNI o contraseña incorrectos.");
+        }
+        return false;
+    }
+
+    /**
+     * Metodo para buscar en la base de datos por DNI
+     */
+    public static Usuario obtenerUsuarioPorDni(String dni) {
+        String sql = "SELECT * FROM usuarios WHERE dni = ?";
+
+        try (Connection conn = ConexionDB.getConexion();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, dni);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                String nombre = rs.getString("nombre");
+                String email = rs.getString("email");
+                return new Usuario(nombre, dni, email);
+            }
+        } catch (SQLException e) {
+            System.out.println("Error al obtener el usuario: " + e.getMessage());
+        }
+        return null;
+    }
+
     public static double pedirCantidadGUI(String titulo) {
         String input = JOptionPane.showInputDialog(null, "Introduce la cantidad (€):", titulo, JOptionPane.PLAIN_MESSAGE);
 
@@ -144,6 +233,39 @@ public class Herramientas {
         }
     }
 
+    public static void menuInicio() {
+        boolean continuar = true;
+        do {
+            try {
+                System.out.println("1. Registrarse");
+                System.out.println("2. Iniciar sesión");
+                System.out.println("0. Salir");
+                int opcion = Integer.parseInt(leerOpcion("Elige una opción: "));
+                if (opcion < 0 || opcion > 2) {
+                    throw new IllegalArgumentException("Introduce una opción válida.");
+                }
+
+                switch (opcion) {
+                    case 0:
+                        System.out.println("Saliendo...");
+                        continuar = false;
+                        break;
+                    case 1:
+                        if (crearUsuario()) {
+                            iniciar();
+                        }
+                        break;
+                    case 2:
+                        if (iniciarSesion()) {
+                            iniciar();
+                        }
+                        break;
+                }
+            } catch (IllegalArgumentException e) {
+                System.out.println(e.getMessage());
+            }
+        } while (continuar);
+    }
     /**
      * Devuelve el menú a mostrar en el programa principal.
      *
