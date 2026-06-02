@@ -4,6 +4,7 @@ import clases.CryptoBank;
 import clases.CuentaBancaria;
 import clases.Usuario;
 
+import javax.swing.*;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -125,6 +126,24 @@ public class Herramientas {
         return true;
     }
 
+    public static double pedirCantidadGUI(String titulo) {
+        String input = JOptionPane.showInputDialog(null, "Introduce la cantidad (€):", titulo, JOptionPane.PLAIN_MESSAGE);
+
+        if (input == null) return -1; // usuario canceló
+
+        try {
+            double cantidad = Double.parseDouble(input.trim());
+            if (cantidad <= 0) {
+                JOptionPane.showMessageDialog(null, "La cantidad debe ser mayor que 0.");
+                return -1;
+            }
+            return cantidad;
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "Introduce un número válido.");
+            return -1;
+        }
+    }
+
     /**
      * Devuelve el menú a mostrar en el programa principal.
      *
@@ -158,42 +177,21 @@ public class Herramientas {
                     System.out.println("Esta opción aun está pendiente de desarrollo. ");
                     break;
                 case "3":
-                    try {
-                        System.out.print("Introduce la cantidad a retirar: ");
-                        double cantidadRetiro = sc.nextDouble();
-                        if (cantidadRetiro <= 0) {
-                            throw new IllegalArgumentException("La cantidad a retirar debe ser mayor a 0.");
-                        }
-                        if (cuentaPrincipal.retirar(cantidadRetiro)) {
-                            System.out.println("Retiro realizado. Nuevo saldo: " + cuentaPrincipal.getSaldo() + "€");
-                        } else {
-                            System.out.println("No tienes saldo suficiente para retirar.");
-                        }
-                    } catch (IllegalArgumentException e) {
-                        System.out.println("Error en el retiro: " + e.getMessage());
-                    } catch (InputMismatchException e) {
-                        System.out.println("Error: Debes introducir un número válido.");
-                        sc.nextLine(); // Limpiar buffer
+                    double cantidadRetiro = pedirCantidadGUI("Retirar dinero");
+                    if (cantidadRetiro == -1) break;
+                    if (cuentaPrincipal.retirar(cantidadRetiro)) {
+                        JOptionPane.showMessageDialog(null, "Retiro realizado. Saldo: " + cuentaPrincipal.getSaldo() + "€");
+                    } else {
+                        JOptionPane.showMessageDialog(null, "No tienes saldo suficiente.");
                     }
                     break;
-
                 case "4":
-                    try {
-                        System.out.print("Introduce la cantidad a depositar: ");
-                        double cantidadDeposito = sc.nextDouble();
-                        if (cantidadDeposito <= 0) {
-                            throw new IllegalArgumentException("La cantidad a depositar debe ser mayor a 0.");
-                        }
-                        if (cuentaPrincipal.depositar(cantidadDeposito)) {
-                            System.out.println("Depósito realizado. Saldo actual: " + cuentaPrincipal.getSaldo() + "€");
-                        } else {
-                            System.out.println("No se ha podido hacer el deposito, cantidad no válida.");
-                        }
-                    } catch (IllegalArgumentException e) {
-                        System.out.println("Error en el deposito: " + e.getMessage());
-                    } catch (InputMismatchException e) {
-                        System.out.println("Error: Debe introducir un número válido.");
-                        sc.nextLine(); // Limpiar
+                    double cantidadDeposito = pedirCantidadGUI("Hacer un depósito");
+                    if (cantidadDeposito == -1) break; // canceló o dato inválido
+                    if (cuentaPrincipal.depositar(cantidadDeposito)) {
+                        JOptionPane.showMessageDialog(null, "Depósito realizado. Saldo: " + cuentaPrincipal.getSaldo() + "€");
+                    } else {
+                        JOptionPane.showMessageDialog(null, "No se pudo hacer el depósito.");
                     }
                     break;
 
