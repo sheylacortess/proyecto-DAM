@@ -11,4 +11,12 @@ public class ConexionDB {
     public static Connection getConexion() throws SQLException {
         return DriverManager.getConnection(URL);
     }
+
+    public static void main(String[] args) {
+        try (Connection conn = DriverManager.getConnection(URL)) {
+            System.out.println("Conectado. bien");
+        } catch (SQLException e) {
+            System.out.println("Error fatal");
+        }
+    }
 }
