@@ -218,20 +218,20 @@ public class Herramientas {
         return null;
     }
 
-    private static double resultado = -1;
+    private static double resultado = -1; // indica que el usuario no ha metido nada todavia, siempre va a volver a ser -1
 
     public static double pedirCantidadGUI() {
 
         JDialog dialog = new JDialog();
         dialog.setSize(300, 150);
-        dialog.setModal(true);
-        dialog.setLayout(new FlowLayout());
+        dialog.setModal(true); // Congela el programa mientras está activo
+        dialog.setLayout(new FlowLayout()); // Colocación
 
-        JTextField campo = new JTextField(15);
+        JTextField campo = new JTextField(15);  // caja de texto con su tamaño
         JButton boton = new JButton("Aceptar");
-        resultado = -1;
+        resultado = -1;     // Reinicia el resultado a -1 por si el metodo se ha llamado anteriormente
 
-        boton.addActionListener(new ActionListener() {
+        boton.addActionListener(new ActionListener() { // Le dice al botón que hacer cuando se pulse
             @Override
             public void actionPerformed(ActionEvent e) {
                 String input = campo.getText().trim();
@@ -241,7 +241,7 @@ public class Herramientas {
                         JOptionPane.showMessageDialog(null, "La cantidad debe ser mayor que 0.");
                     } else {
                         resultado = cantidad;
-                        dialog.dispose();
+                        dialog.dispose(); // Cierra la ventana y descongela el programa
                     }
                 } catch (NumberFormatException ex) {
                     JOptionPane.showMessageDialog(null, "Introduce un número válido.");
@@ -249,6 +249,7 @@ public class Herramientas {
             }
         });
 
+        // todo lo que va dentro
         dialog.add(new JLabel("Introduce la cantidad (€):"));
         dialog.add(campo);
         dialog.add(boton);

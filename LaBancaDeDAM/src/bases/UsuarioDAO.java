@@ -1,5 +1,7 @@
 package bases;
 
+import metodos.Herramientas;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -51,6 +53,32 @@ public class UsuarioDAO {
             return rs.next(); // true si encuentra un usuario
         } catch (SQLException e) {
             System.out.println("Error en login: " + e.getMessage());
+            return false;
+        }
+    }
+
+    public static void borrarTabla() {
+        String sql = "DELETE FROM usuarios";
+
+        try (Connection conn = ConexionDB.getConexion();
+             Statement stmt = conn.createStatement()) {
+            stmt.execute(sql);
+        } catch (SQLException e) {
+            System.out.println("Error al borrar tabla: " + e.getMessage());
+        }
+    }
+
+    public static boolean actualizarPassword(String dni, String passwordNueva) {
+        String sql = "UPDATE usuarios SET password = ? WHERE dni = ?";
+
+        try (Connection conn = ConexionDB.getConexion();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, passwordNueva);
+            ps.setString(2, dni);
+            ps.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            System.out.println("Error al actualizar contraseña: " + e.getMessage());
             return false;
         }
     }
